@@ -22,7 +22,7 @@ public class IntBoard {
 	private void calcAdjacencies() {
 		
 	}
-	private Set<BoardCell> getAdjList() {
+	private Set<BoardCell> getAdjList(BoardCell cell) {
 		
 	}
 	private void calcTargets(BoardCell startCell, int pathLength) {
