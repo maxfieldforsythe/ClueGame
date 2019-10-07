@@ -19,19 +19,26 @@ public class IntBoard {
 		grid = new BoardCell[4][4];
 	}
 	
-	private void calcAdjacencies() {
+	public void calcAdjacencies() {
 		
 	}
-	private Set<BoardCell> getAdjList(BoardCell cell) {
-		
+	public Set<BoardCell> getAdjList(BoardCell cell) {
+		return visited;
 	}
-	private void calcTargets(BoardCell startCell, int pathLength) {
+	public void calcTargets(BoardCell startCell, int pathLength) {
 		
 	}
 	public Set<BoardCell> getTargets() {
 		return targets;
 	}
+
+	public BoardCell getCell(int i, int j) {
+		
+		return grid[i][j];
+	}
 	
+
+
 	
 	
 }
