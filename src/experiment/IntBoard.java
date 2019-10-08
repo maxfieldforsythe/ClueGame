@@ -83,17 +83,30 @@ public class IntBoard {
 		return null;
 	}
 	public void calcTargets(BoardCell startCell, int pathLength) {
+	
+		visited.add(getCell(startCell.x, startCell.y));
+		adjMtx.get(startCell);
+		for (BoardCell cell : adjMtx.get(startCell)) {
+			if (visited.contains(cell)) {
+				continue;
+			}
+			if (pathLength > 1 ) {
+				calcTargets(cell,pathLength - 1);
+			}
+			else {
+				targets.add(cell);
+			}
+		}
 		
 	}
 	public Set<BoardCell> getTargets() {
-		return null;
+		
+		return targets;
 	}
 
 	public BoardCell getCell(int i, int j) {
-		if (i <0 || j<0) {
-			return null;
-		}
-		if (i > grid[i].length || j > grid[j].length) {
+		
+		if (i >= 4 || j >= 4 || i <0 || j<0) {
 			return null;
 		}
 		
