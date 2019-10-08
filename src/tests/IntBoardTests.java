@@ -2,6 +2,7 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.Before;
@@ -17,6 +18,8 @@ public class IntBoardTests {
 	@Before
 	 public void beforeAll() {
          board = new IntBoard();  
+         board.calcAdjacencies();
+         Set<BoardCell> testList = new HashSet<BoardCell>();
       }
 
 	

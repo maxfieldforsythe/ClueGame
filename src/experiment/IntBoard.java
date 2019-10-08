@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 
 public class IntBoard {
-	private Map<BoardCell, Set<BoardCell>> adjMtx;
+	public Map<BoardCell, Set<BoardCell>> adjMtx;
 	private Set<BoardCell> visited;
 	private Set<BoardCell> targets;
 	private BoardCell[][] grid;
@@ -17,27 +17,89 @@ public class IntBoard {
 		visited = new HashSet<>();
 		targets = new HashSet<>();
 		grid = new BoardCell[4][4];
+		makeGrid();
+	}
+	public void makeGrid() {
+		
+		for (int i = 0; i < 4; i++) {
+			for(int j = 0; j <4; j++) {
+				BoardCell temp = new BoardCell();
+				temp.x = i;
+				temp.y = j;
+				grid[i][j] = temp;
+
+			}
+		}
 	}
 	
 	public void calcAdjacencies() {
-		
+		BoardCell tempCell = new BoardCell();
+		BoardCell addCell = new BoardCell();
+		HashSet tempSet = new HashSet<BoardCell>();
+		for (int i = 0; i <4; i++) {
+			for (int j = 0; j < 4; j++) {
+				tempCell = new BoardCell();
+				tempSet = new HashSet<BoardCell>();
+				tempCell.x = i;
+				tempCell.y = j;
+				if (i-1 >= 0) {
+					addCell = new BoardCell();
+					addCell.x = i -1;
+					addCell.y=j;
+					tempSet.add(getCell(addCell.x,addCell.y));
+				}
+				if (j-1 >= 0) {
+					addCell = new BoardCell();
+
+					addCell.x = i;
+					addCell.y=j-1;
+					tempSet.add(getCell(addCell.x,addCell.y));
+				}
+				if (i+1 <= 3) {
+					addCell = new BoardCell();
+
+					addCell.x = i +1;
+					addCell.y=j;
+					tempSet.add(getCell(addCell.x,addCell.y));
+				}
+				if (j+1 <= 3) {
+					addCell = new BoardCell();
+
+					addCell.x = i;
+					addCell.y=j+1;
+					tempSet.add(getCell(addCell.x,addCell.y));
+				}
+				this.adjMtx.put(getCell(tempCell.x,tempCell.y),tempSet);
+			}
+			
+		}
 	}
 	public Set<BoardCell> getAdjList(BoardCell cell) {
-		return visited;
+		for (BoardCell key: adjMtx.keySet()) {
+			if (key.x == cell.x && key.y == cell.y) {
+				return adjMtx.get(key);			}
+			
+		}
+		return null;
 	}
 	public void calcTargets(BoardCell startCell, int pathLength) {
 		
 	}
 	public Set<BoardCell> getTargets() {
-		return targets;
+		return null;
 	}
 
 	public BoardCell getCell(int i, int j) {
+		if (i <0 || j<0) {
+			return null;
+		}
+		if (i > grid[i].length || j > grid[j].length) {
+			return null;
+		}
 		
 		return grid[i][j];
-	}
 	
-
+	}
 
 	
 	
