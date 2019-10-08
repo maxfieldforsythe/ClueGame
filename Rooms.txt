@@ -1,0 +1,10 @@
+K, Kitchen, Card
+R, Reading room, Card
+T, TV Room, Card
+G, Gym, Card
+U, Studio, Card
+B, Bar, Card
+D, Dining room, Card
+H, Hall, Card
+C, Closet, Other
+W, Walkway, Other
