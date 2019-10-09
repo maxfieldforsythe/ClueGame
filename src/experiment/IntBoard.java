@@ -31,7 +31,7 @@ public class IntBoard {
 			}
 		}
 	}
-	
+	//Adds adjacency for square left right above and below target to a set then adds that set to  map with the initial square as the key
 	public void calcAdjacencies() {
 		BoardCell tempCell = new BoardCell();
 		BoardCell addCell = new BoardCell();
@@ -74,6 +74,7 @@ public class IntBoard {
 			
 		}
 	}
+	//getter for adjacency list
 	public Set<BoardCell> getAdjList(BoardCell cell) {
 		for (BoardCell key: adjMtx.keySet()) {
 			if (key.x == cell.x && key.y == cell.y) {
@@ -82,28 +83,33 @@ public class IntBoard {
 		}
 		return null;
 	}
+	//CAlculated targets recursively 
 	public void calcTargets(BoardCell startCell, int pathLength) {
-	
-		visited.add(getCell(startCell.x, startCell.y));
+		
 		adjMtx.get(startCell);
 		for (BoardCell cell : adjMtx.get(startCell)) {
 			if (visited.contains(cell)) {
 				continue;
 			}
+			visited.add(getCell(startCell.x, startCell.y));
+
 			if (pathLength > 1 ) {
 				calcTargets(cell,pathLength - 1);
 			}
 			else {
 				targets.add(cell);
 			}
+			visited.remove(cell);
 		}
 		
+		
 	}
+	//Getter for targets
 	public Set<BoardCell> getTargets() {
 		
 		return targets;
 	}
-
+//Getter for cell using grid
 	public BoardCell getCell(int i, int j) {
 		
 		if (i >= 4 || j >= 4 || i <0 || j<0) {
@@ -117,3 +123,4 @@ public class IntBoard {
 	
 	
 }
+
