@@ -8,6 +8,7 @@ package tests;
 // Assert.assertEquals
 import static org.junit.Assert.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Assert;
@@ -40,6 +41,7 @@ public class CTest_FileInitTests {
 	@Test
 	public void testRooms() {
 		// Get the map of initial => room 
+		
 		Map<Character, String> legend = board.getLegend();
 		// Ensure we read the correct number of rooms
 		assertEquals(LEGEND_SIZE, legend.size());
@@ -85,13 +87,14 @@ public class CTest_FileInitTests {
 
 	}
 	
+	
 	// Test that we have the correct number of doors
 	@Test
 	public void testNumberOfDoorways() 
 	{
 		int numDoors = 0;
-		for (int row=0; row<board.getNumRows(); row++)
-			for (int col=0; col<board.getNumColumns(); col++) {
+		for (int row = 0; row < board.getNumRows(); row++)
+			for (int col=0; col < board.getNumColumns(); col++) {
 				BoardCell cell = board.getCellAt(row, col);
 				if (cell.isDoorway())
 					numDoors++;
