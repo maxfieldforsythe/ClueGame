@@ -1,3 +1,7 @@
+/*
+ * Caroline Arndt
+ * Maxfield Forsythe
+ */
 package clueGame;
 
 
@@ -91,7 +95,7 @@ public class Board {
 				char c = arrays.get(i)[j].charAt(0);
 				temp.setInitial(c);
 				if (arrays.get(i)[j].length() > 1) {
-					if (arrays.get(i)[j].charAt(1) != 'N') {
+					if (arrays.get(i)[j].charAt(1) != 'N' ) {
 						temp.setDoor (true);
 					} 
 					if (arrays.get(i)[j].charAt(1) == 'R') {

@@ -1,0 +1,13 @@
+Four Door Directions
+	the Kitchen has a door with direction right.
+	the TV room has a door with direction down.
+	the Bar has a door with direction left
+	the Gym has a door with direction up.
+	
+	
+TestBoardDimensions
+	Our board is 22*21.
+	
+correctLetter
+	we tested the closet, TV room, Bar, and studio.
+	

@@ -1,3 +1,7 @@
+/*
+ * Caroline Arndt
+ * Maxfield Forsythe
+ */
 package clueGame;
 
 public class BoardCell {
