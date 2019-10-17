@@ -39,11 +39,14 @@ public class Board {
 	public void initialize() {
 		//Initialize legend as hash map and load csv and legend files
 		legend = new HashMap<Character, String>();
-		this.loadBoardConfig();
-		this.loadRoomConfig();
+		try{this.loadBoardConfig();
+			this.loadRoomConfig();
+		}catch(BadConfigFormatException e){
+			System.out.println(e.getMessage());
+		}
 	}
 	
-	public void loadRoomConfig() {
+	public void loadRoomConfig() throws BadConfigFormatException{
 		//File reader to read layout csv
 		FileReader reader = null;
 		try {
@@ -57,13 +60,15 @@ public class Board {
 		    String line = scanner.nextLine();
 		    String[] strArr = line.split(", ", -2);
 		    Character ch = strArr[0].charAt(0);
-		    
+		    //throws exception if it is the wrong type
+		    if (!strArr[2].contentEquals("Card") && !strArr[2].contentEquals("Other") )
+		    	throw new BadConfigFormatException();
 		    this.legend.put(ch, strArr[1]);
 		}
 		scanner.close();
 	}
 	
-	public void loadBoardConfig() {
+	public void loadBoardConfig() throws BadConfigFormatException{
 		//Creates arrayList of arrays to store the string split arrays when reading in lines from csv
 		ArrayList<String[]> arrays = new ArrayList<String[]>();
 		FileReader reader = null;
@@ -82,6 +87,11 @@ public class Board {
 		scanner.close();
 		//Sets length of columns and length of rows
 		this.numColumns = arrays.get(0).length;
+		for (String[] s: arrays) {
+			System.out.println();
+			if (s.length != numColumns)
+				throw new BadConfigFormatException();
+		}
 		this.numRows = arrays.size();
 		//initialize board with row and column numbers retrieved from csv
 		board = new BoardCell[numRows][numColumns];
