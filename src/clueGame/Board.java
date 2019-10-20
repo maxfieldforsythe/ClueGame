@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
@@ -24,6 +25,7 @@ public class Board {
 	private Map<Character, String> legend;
 	private Map<BoardCell, Set<BoardCell>> adjMatrix;
 	private Set<BoardCell> targets;
+	private Set<BoardCell> visited;
 	private String boardConfigFile;
 	private String roomConfigFile;
 	private static Board theInstance = new Board();
@@ -44,6 +46,7 @@ public class Board {
 		}catch(BadConfigFormatException e){
 			System.out.println(e.getMessage());
 		}
+		this.calcAdjacencies();
 	}
 	
 	public void loadRoomConfig() throws BadConfigFormatException{
@@ -131,11 +134,80 @@ public class Board {
 	}
 	
 	public void calcAdjacencies() {
-		
+		BoardCell tempCell = new BoardCell();
+		BoardCell addCell = new BoardCell();
+		HashSet tempSet = new HashSet<BoardCell>();
+		for (int i = 0; i <this.numRows; i++) {
+			for (int j = 0; j < this.numColumns; j++) {
+				tempCell = new BoardCell();
+				tempSet = new HashSet<BoardCell>();
+				tempCell.setRow(i);
+				tempCell.setColumn(j);
+				if (i-1 >= 0) {
+					addCell = new BoardCell();
+					addCell.setRow(i-1);
+					addCell.setColumn(j);
+					tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
+				}
+				if (j-1 >= 0) {
+					addCell = new BoardCell();
+
+					addCell.setRow(i);
+					addCell.setColumn(j-1);
+					tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
+				}
+				if (i+1 <= this.numRows) {
+					addCell = new BoardCell();
+
+					addCell.setRow(i +1);
+					addCell.setColumn(j);
+					tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
+				}
+				if (j+1 <= this.numColumns) {
+					addCell = new BoardCell();
+
+					addCell.setRow(i);
+					addCell.setColumn(j+1);
+					tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
+				}
+				this.adjMatrix.put(getCellAt(tempCell.getRow(),tempCell.getColumn()),tempSet);
+			}
+			
+		}
 	}
 	
-	public void calcTargets(BoardCell cell, int pathLength) {
+	
+	
+	public Set<BoardCell> getAdjList(int i, int j) {
 		
+		return adjMatrix.get(board[i][j]);
+	}
+
+	public void calcTargets(int row, int column, int pathLength) {
+		
+		BoardCell startCell = new BoardCell();
+		startCell = this.getCellAt(row, column);
+		
+		for (BoardCell cell : adjMatrix.get(startCell)) {
+			if (visited.contains(cell)) {
+				continue;
+			}
+			visited.add(getCellAt(startCell.getRow(), startCell.getColumn()));
+
+			if (pathLength > 1 ) {
+				calcTargets(cell.getRow(),cell.getColumn(),pathLength - 1);
+			}
+			else {
+				targets.add(cell);
+			}
+			visited.remove(cell);
+		}
+		
+	}
+
+
+	public Set<BoardCell> getTargets() {
+		return targets;
 	}
 
 	public Map<Character, String> getLegend() {
@@ -160,5 +232,7 @@ public class Board {
 		this.roomConfigFile = txt;
 
 	}
+
+
 
 }

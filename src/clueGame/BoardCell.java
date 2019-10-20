@@ -25,6 +25,12 @@ public class BoardCell {
 		return true;
 	}
 	
+	public int getRow() {
+		return row;
+	}
+	public int getColumn() {
+		return column;
+	}
 	public boolean isRoom() {
 		return true;
 	}
