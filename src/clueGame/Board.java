@@ -157,14 +157,14 @@ public class Board {
 					addCell.setColumn(j-1);
 					tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
 				}
-				if (i+1 <= this.numRows) {
+				if (i+1 < this.numRows) {
 					addCell = new BoardCell();
 
 					addCell.setRow(i +1);
 					addCell.setColumn(j);
 					tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
 				}
-				if (j+1 <= this.numColumns) {
+				if (j+1 < this.numColumns) {
 					addCell = new BoardCell();
 
 					addCell.setRow(i);
