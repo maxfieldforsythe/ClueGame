@@ -46,6 +46,7 @@ public class Board {
 		}catch(BadConfigFormatException e){
 			System.out.println(e.getMessage());
 		}
+		adjMatrix = new HashMap<BoardCell, Set<BoardCell>>();
 		this.calcAdjacencies();
 	}
 	
@@ -136,7 +137,7 @@ public class Board {
 	public void calcAdjacencies() {
 		BoardCell tempCell = new BoardCell();
 		BoardCell addCell = new BoardCell();
-		HashSet tempSet = new HashSet<BoardCell>();
+		Set tempSet = new HashSet<BoardCell>();
 		for (int i = 0; i <this.numRows; i++) {
 			for (int j = 0; j < this.numColumns; j++) {
 				tempCell = new BoardCell();
