@@ -10,6 +10,7 @@ public class BoardCell {
 	private char initial;
 	private boolean door;
 	private DoorDirection dir;
+	private boolean room;
 	
 	public BoardCell() {
 		super();
@@ -32,9 +33,12 @@ public class BoardCell {
 		return column;
 	}
 	public boolean isRoom() {
-		return true;
+		return room;
 	}
 	
+	public void setRoom(boolean room) {
+		this.room = room;
+	}
 	public boolean isDoorway() {
 		return this.door;
 	}

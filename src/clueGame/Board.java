@@ -124,6 +124,10 @@ public class Board {
 					if (arrays.get(i)[j].charAt(1) == 'L') {
 						temp.setDir(DoorDirection.LEFT);
 					}
+				} else {
+					if (arrays.get(i)[j].charAt(0) != 'W' ) {
+						temp.setRoom(true);
+					}
 				}
 				//Sets board cell equal to the data stored in a temp cell.
 				//Temp cell is where the csv data is stored 
@@ -144,6 +148,11 @@ public class Board {
 				tempSet = new HashSet<BoardCell>();
 				tempCell.setRow(i);
 				tempCell.setColumn(j);
+				if (getCellAt(tempCell.getRow(),tempCell.getColumn()).isRoom()) {
+					this.adjMatrix.put(getCellAt(tempCell.getRow(),tempCell.getColumn()),tempSet);
+
+					continue;
+				}
 				if (i-1 >= 0) {
 					addCell = new BoardCell();
 					addCell.setRow(i-1);
@@ -181,7 +190,12 @@ public class Board {
 	
 	public Set<BoardCell> getAdjList(int i, int j) {
 		
-		return adjMatrix.get(board[i][j]);
+		for (BoardCell key: adjMatrix.keySet()) {
+			if (key.getRow() == i && key.getColumn() == j) {
+				return adjMatrix.get(key);			}
+			
+		}
+		return null;
 	}
 
 	public void calcTargets(int row, int column, int pathLength) {
