@@ -48,6 +48,8 @@ public class Board {
 		}
 		adjMatrix = new HashMap<BoardCell, Set<BoardCell>>();
 		this.calcAdjacencies();
+		targets = new HashSet<BoardCell>();
+		visited = new HashSet<BoardCell>();
 	}
 	
 	public void loadRoomConfig() throws BadConfigFormatException{
@@ -148,37 +150,96 @@ public class Board {
 				tempSet = new HashSet<BoardCell>();
 				tempCell.setRow(i);
 				tempCell.setColumn(j);
+				//If cell is a room add empty set to adjMatrix and continue
 				if (getCellAt(tempCell.getRow(),tempCell.getColumn()).isRoom()) {
 					this.adjMatrix.put(getCellAt(tempCell.getRow(),tempCell.getColumn()),tempSet);
 
 					continue;
 				}
+				
+				if (getCellAt(tempCell.getRow(),tempCell.getColumn()).isDoorway()) {
+					if (getCellAt(tempCell.getRow(),tempCell.getColumn()).getDir() == DoorDirection.RIGHT) {
+						addCell.setRow(i);
+						addCell.setColumn(j+1);
+						tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
+						this.adjMatrix.put(getCellAt(tempCell.getRow(),tempCell.getColumn()),tempSet);
+
+						continue;
+					}
+					if (getCellAt(tempCell.getRow(),tempCell.getColumn()).getDir() == DoorDirection.LEFT) {
+						addCell.setRow(i);
+						addCell.setColumn(j-1);
+						tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
+						this.adjMatrix.put(getCellAt(tempCell.getRow(),tempCell.getColumn()),tempSet);
+
+						continue;
+					}
+					if (getCellAt(tempCell.getRow(),tempCell.getColumn()).getDir() == DoorDirection.UP) {
+						addCell.setRow(i-1);
+						addCell.setColumn(j);
+						tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
+						this.adjMatrix.put(getCellAt(tempCell.getRow(),tempCell.getColumn()),tempSet);
+
+						continue;
+					}
+					if (getCellAt(tempCell.getRow(),tempCell.getColumn()).getDir() == DoorDirection.DOWN) {
+						addCell.setRow(i +1);
+						addCell.setColumn(j);
+						tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
+						this.adjMatrix.put(getCellAt(tempCell.getRow(),tempCell.getColumn()),tempSet);
+
+						continue;
+					}
+				}
 				if (i-1 >= 0) {
 					addCell = new BoardCell();
+					if (!this.getCellAt(i-1,j).isDoorway() && !this.getCellAt(i-1,j).isRoom()) {
+						
+					
 					addCell.setRow(i-1);
 					addCell.setColumn(j);
 					tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
+					} else if (this.getCellAt(i-1,j).getDir() == DoorDirection.DOWN) {
+						addCell.setRow(i-1);
+						addCell.setColumn(j);
+						tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
+					}
 				}
 				if (j-1 >= 0) {
 					addCell = new BoardCell();
-
+					if (!this.getCellAt(i,j-1).isDoorway()  && !this.getCellAt(i,j-1).isRoom()) {
 					addCell.setRow(i);
 					addCell.setColumn(j-1);
 					tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
+					} else if (this.getCellAt(i,j-1).getDir() == DoorDirection.RIGHT) {
+						addCell.setRow(i);
+						addCell.setColumn(j-1);
+						tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
+					}
 				}
 				if (i+1 < this.numRows) {
 					addCell = new BoardCell();
-
+					if (!this.getCellAt(i+1,j).isDoorway()  && !this.getCellAt(i+1,j).isRoom()) {
 					addCell.setRow(i +1);
 					addCell.setColumn(j);
 					tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
+					} else if (this.getCellAt(i+1,j).getDir() == DoorDirection.UP) {
+						addCell.setRow(i+1);
+						addCell.setColumn(j);
+						tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
+					}
 				}
 				if (j+1 < this.numColumns) {
 					addCell = new BoardCell();
-
+					if (!this.getCellAt(i,j+1).isDoorway()  && !this.getCellAt(i,j+1).isRoom()) {
 					addCell.setRow(i);
 					addCell.setColumn(j+1);
 					tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
+					} else if (this.getCellAt(i,j+1).getDir() == DoorDirection.LEFT) {
+						addCell.setRow(i);
+						addCell.setColumn(j+1);
+						tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
+					}
 				}
 				this.adjMatrix.put(getCellAt(tempCell.getRow(),tempCell.getColumn()),tempSet);
 			}
@@ -200,14 +261,16 @@ public class Board {
 
 	public void calcTargets(int row, int column, int pathLength) {
 		
-		BoardCell startCell = new BoardCell();
-		startCell = this.getCellAt(row, column);
+	
 		
-		for (BoardCell cell : adjMatrix.get(startCell)) {
+		for (BoardCell cell : adjMatrix.get(this.getCellAt(row, column))) {
 			if (visited.contains(cell)) {
 				continue;
 			}
-			visited.add(getCellAt(startCell.getRow(), startCell.getColumn()));
+			if (cell.isDoorway()) {
+				targets.add(cell);
+			}
+			visited.add(getCellAt(row, column));
 
 			if (pathLength > 1 ) {
 				calcTargets(cell.getRow(),cell.getColumn(),pathLength - 1);
@@ -222,7 +285,11 @@ public class Board {
 
 
 	public Set<BoardCell> getTargets() {
-		return targets;
+		Set temp = new HashSet<BoardCell>();
+		temp = targets;
+		targets = new HashSet<BoardCell>();
+		visited = new HashSet<BoardCell>();
+		return temp;
 	}
 
 	public Map<Character, String> getLegend() {

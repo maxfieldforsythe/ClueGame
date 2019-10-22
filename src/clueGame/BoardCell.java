@@ -22,7 +22,10 @@ public class BoardCell {
 	public void setDir(DoorDirection d) {
 		this.dir = d;
 	}
-	public boolean isWalkway() {
+	public DoorDirection getDir() {
+		return dir;
+	}
+ 	public boolean isWalkway() {
 		return true;
 	}
 	
