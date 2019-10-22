@@ -141,9 +141,11 @@ public class Board {
 	}
 	
 	public void calcAdjacencies() {
+		//Initialize boardcell objects to store temporary data
 		BoardCell tempCell = new BoardCell();
 		BoardCell addCell = new BoardCell();
 		Set tempSet = new HashSet<BoardCell>();
+		//Calculates adjacent spaces
 		for (int i = 0; i <this.numRows; i++) {
 			for (int j = 0; j < this.numColumns; j++) {
 				tempCell = new BoardCell();
@@ -156,7 +158,7 @@ public class Board {
 
 					continue;
 				}
-				
+				//Checks the if the cell is a doorway and then adds their adjacent space based on direction
 				if (getCellAt(tempCell.getRow(),tempCell.getColumn()).isDoorway()) {
 					if (getCellAt(tempCell.getRow(),tempCell.getColumn()).getDir() == DoorDirection.RIGHT) {
 						addCell.setRow(i);
@@ -191,6 +193,9 @@ public class Board {
 						continue;
 					}
 				}
+				//For each space, while taking into account edge pieces, adds the surrounding spaces to the adjacenecy list
+				//If not a door or a room, adds the space to the list
+				//If it is a door which matching direction, it will add the door space
 				if (i-1 >= 0) {
 					addCell = new BoardCell();
 					if (!this.getCellAt(i-1,j).isDoorway() && !this.getCellAt(i-1,j).isRoom()) {
@@ -248,7 +253,7 @@ public class Board {
 	}
 	
 	
-	
+	//Returns the adjacency matrix value associated with the given coordinates
 	public Set<BoardCell> getAdjList(int i, int j) {
 		
 		for (BoardCell key: adjMatrix.keySet()) {
@@ -258,7 +263,7 @@ public class Board {
 		}
 		return null;
 	}
-
+	//Recursive function to calculate the targets at a given path length
 	public void calcTargets(int row, int column, int pathLength) {
 		
 	
@@ -283,7 +288,7 @@ public class Board {
 		
 	}
 
-
+	//Gets target set
 	public Set<BoardCell> getTargets() {
 		Set temp = new HashSet<BoardCell>();
 		temp = targets;
