@@ -319,5 +319,7 @@ public class CTest_BoardAdjTargetTests {
 		assertTrue(targets.contains(board.getCellAt(5, 19)));
 		assertTrue(targets.contains(board.getCellAt(4, 18)));
 	}
+	
+
 
 }

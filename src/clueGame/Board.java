@@ -1,6 +1,5 @@
 /*
- * Caroline Arndt
- * Maxfield Forsythe
+ * Caroline Arndt & Maxfield Forsythe
  */
 package clueGame;
 
