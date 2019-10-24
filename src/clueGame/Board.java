@@ -112,6 +112,7 @@ public class Board {
 				temp.setInitial(c);
 				if (arrays.get(i)[j].length() > 1) {
 					if (arrays.get(i)[j].charAt(1) != 'N' ) {
+						
 						temp.setDoor (true);
 					} 
 					if (arrays.get(i)[j].charAt(1) == 'R') {
@@ -126,6 +127,7 @@ public class Board {
 					if (arrays.get(i)[j].charAt(1) == 'L') {
 						temp.setDir(DoorDirection.LEFT);
 					}
+					
 				} else {
 					if (arrays.get(i)[j].charAt(0) != 'W' ) {
 						temp.setRoom(true);
@@ -152,8 +154,9 @@ public class Board {
 				tempSet = new HashSet<BoardCell>();
 				tempCell.setRow(i);
 				tempCell.setColumn(j);
-				//If cell is a room add empty set to adjMatrix and continue
+				//If cell is a room add empty set to adjMatrix and continue. If it is closet. Add nothing
 				if (getCellAt(tempCell.getRow(),tempCell.getColumn()).isRoom()) {
+					
 					this.adjMatrix.put(getCellAt(tempCell.getRow(),tempCell.getColumn()),tempSet);
 
 					continue;
