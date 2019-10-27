@@ -63,12 +63,13 @@ public class Board {
 		//Loop to map the character aka initial of each legend item to its name
 		while(scanner.hasNextLine()){
 		    String line = scanner.nextLine();
-		    String[] strArr = line.split(", ", -2);
-		    Character ch = strArr[0].charAt(0);
+		    String[] roomConfigArray = line.split(", ", -2);
+		    Character initialOfRoom = roomConfigArray[0].charAt(0);
+		    
 		    //throws exception if it is the wrong type
-		    if (!strArr[2].contentEquals("Card") && !strArr[2].contentEquals("Other") )
+		    if (!roomConfigArray[2].contentEquals("Card") && !roomConfigArray[2].contentEquals("Other") )
 		    	throw new BadConfigFormatException();
-		    this.legend.put(ch, strArr[1]);
+		    this.legend.put(initialOfRoom, roomConfigArray[1]);
 		}
 		scanner.close();
 	}
@@ -89,7 +90,6 @@ public class Board {
 		    String[] strArr = line.split(",", -2);
 		    arrays.add(strArr);
 		    		}
-		scanner.close();
 		//Sets length of columns and length of rows
 		this.numColumns = arrays.get(0).length;
 		for (String[] s: arrays) {
@@ -104,37 +104,37 @@ public class Board {
 		//This includes the initial, isDoor, and direction of door
 		for (int i = 0; i < this.numRows; i++) {
 			for(int j = 0; j < this.numColumns; j++) {
-				BoardCell temp = new BoardCell();
-				temp.setRow(i);
-				temp.setColumn(j);
+				BoardCell currentCell = new BoardCell();
+				currentCell.setRow(i);
+				currentCell.setColumn(j);
 				char c = arrays.get(i)[j].charAt(0);
-				temp.setInitial(c);
+				currentCell.setInitial(c);
 				if (arrays.get(i)[j].length() > 1) {
 					if (arrays.get(i)[j].charAt(1) != 'N' ) {
 						
-						temp.setDoor (true);
+						currentCell.setDoor (true);
 					} 
 					if (arrays.get(i)[j].charAt(1) == 'R') {
-						temp.setDir(DoorDirection.RIGHT);
+						currentCell.setDir(DoorDirection.RIGHT);
 					}
 					if (arrays.get(i)[j].charAt(1) == 'U') {
-						temp.setDir(DoorDirection.UP);
+						currentCell.setDir(DoorDirection.UP);
 					}
 					if (arrays.get(i)[j].charAt(1) == 'D') {
-						temp.setDir(DoorDirection.DOWN);
+						currentCell.setDir(DoorDirection.DOWN);
 					}
 					if (arrays.get(i)[j].charAt(1) == 'L') {
-						temp.setDir(DoorDirection.LEFT);
+						currentCell.setDir(DoorDirection.LEFT);
 					}
 					
 				} else {
 					if (arrays.get(i)[j].charAt(0) != 'W' ) {
-						temp.setRoom(true);
+						currentCell.setRoom(true);
 					}
 				}
 				//Sets board cell equal to the data stored in a temp cell.
 				//Temp cell is where the csv data is stored 
-				board[i][j] = temp;
+				board[i][j] = currentCell;
 
 			}
 		}
@@ -145,7 +145,7 @@ public class Board {
 		//Initialize boardcell objects to store temporary data
 		BoardCell tempCell = new BoardCell();
 		BoardCell addCell = new BoardCell();
-		Set tempSet = new HashSet<BoardCell>();
+		Set <BoardCell> tempSet = new HashSet<>();
 		//Calculates adjacent spaces
 		for (int i = 0; i <this.numRows; i++) {
 			for (int j = 0; j < this.numColumns; j++) {
@@ -156,7 +156,7 @@ public class Board {
 				//If cell is a room add empty set to adjMatrix and continue. If it is closet. Add nothing
 				if (getCellAt(tempCell.getRow(),tempCell.getColumn()).isRoom()) {
 					
-					this.adjMatrix.put(getCellAt(tempCell.getRow(),tempCell.getColumn()),tempSet);
+					this.adjMatrix.put(getCellAt(i,j),tempSet);
 
 					continue;
 				}
