@@ -93,7 +93,6 @@ public class Board {
 		//Sets length of columns and length of rows
 		this.numColumns = arrays.get(0).length;
 		for (String[] s: arrays) {
-			System.out.println();
 			if (s.length != numColumns)
 				throw new BadConfigFormatException();
 		}
@@ -143,54 +142,44 @@ public class Board {
 	
 	public void calcAdjacencies() {
 		//Initialize boardcell objects to store temporary data
-		BoardCell tempCell = new BoardCell();
+		BoardCell currentCell;
 		BoardCell addCell = new BoardCell();
 		Set <BoardCell> tempSet = new HashSet<>();
 		//Calculates adjacent spaces
 		for (int i = 0; i <this.numRows; i++) {
 			for (int j = 0; j < this.numColumns; j++) {
-				tempCell = new BoardCell();
+				currentCell = getCellAt(i,j);
 				tempSet = new HashSet<BoardCell>();
-				tempCell.setRow(i);
-				tempCell.setColumn(j);
 				//If cell is a room add empty set to adjMatrix and continue. If it is closet. Add nothing
-				if (getCellAt(tempCell.getRow(),tempCell.getColumn()).isRoom()) {
+				if (currentCell.isRoom()) {
 					
 					this.adjMatrix.put(getCellAt(i,j),tempSet);
 
 					continue;
 				}
 				//Checks the if the cell is a doorway and then adds their adjacent space based on direction
-				if (getCellAt(tempCell.getRow(),tempCell.getColumn()).isDoorway()) {
-					if (getCellAt(tempCell.getRow(),tempCell.getColumn()).getDir() == DoorDirection.RIGHT) {
-						addCell.setRow(i);
-						addCell.setColumn(j+1);
-						tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
-						this.adjMatrix.put(getCellAt(tempCell.getRow(),tempCell.getColumn()),tempSet);
+				if (currentCell.isDoorway()) {
+					if (currentCell.getDir() == DoorDirection.RIGHT) {
+						tempSet.add(getCellAt(i,j+1));
+						this.adjMatrix.put(currentCell,tempSet);
 
 						continue;
 					}
-					if (getCellAt(tempCell.getRow(),tempCell.getColumn()).getDir() == DoorDirection.LEFT) {
-						addCell.setRow(i);
-						addCell.setColumn(j-1);
-						tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
-						this.adjMatrix.put(getCellAt(tempCell.getRow(),tempCell.getColumn()),tempSet);
+					if (currentCell.getDir() == DoorDirection.LEFT) {
+						tempSet.add(getCellAt(i,j-1));
+						this.adjMatrix.put(currentCell,tempSet);
 
 						continue;
 					}
-					if (getCellAt(tempCell.getRow(),tempCell.getColumn()).getDir() == DoorDirection.UP) {
-						addCell.setRow(i-1);
-						addCell.setColumn(j);
-						tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
-						this.adjMatrix.put(getCellAt(tempCell.getRow(),tempCell.getColumn()),tempSet);
+					if (currentCell.getDir() == DoorDirection.UP) {
+						tempSet.add(getCellAt(i-1,j));
+						this.adjMatrix.put(currentCell,tempSet);
 
 						continue;
 					}
-					if (getCellAt(tempCell.getRow(),tempCell.getColumn()).getDir() == DoorDirection.DOWN) {
-						addCell.setRow(i +1);
-						addCell.setColumn(j);
-						tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
-						this.adjMatrix.put(getCellAt(tempCell.getRow(),tempCell.getColumn()),tempSet);
+					if (currentCell.getDir() == DoorDirection.DOWN) {
+						tempSet.add(getCellAt(i+1,j));
+						this.adjMatrix.put(currentCell,tempSet);
 
 						continue;
 					}
@@ -248,7 +237,7 @@ public class Board {
 						tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
 					}
 				}
-				this.adjMatrix.put(getCellAt(tempCell.getRow(),tempCell.getColumn()),tempSet);
+				this.adjMatrix.put(getCellAt(currentCell.getRow(),currentCell.getColumn()),tempSet);
 			}
 			
 		}
