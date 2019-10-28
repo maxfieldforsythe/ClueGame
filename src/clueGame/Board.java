@@ -233,8 +233,8 @@ public class Board {
 		
 		for (BoardCell key: adjMatrix.keySet()) {
 			if (key.getRow() == i && key.getColumn() == j) {
-				return adjMatrix.get(key);			}
-			
+				return adjMatrix.get(key);			
+				}		
 		}
 		return null;
 	}

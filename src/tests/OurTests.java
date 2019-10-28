@@ -77,7 +77,6 @@ public class OurTests {
 		for (int i = 0; i < NUM_ROWS; i ++) {
 			for (int j = 0; j < NUM_COLUMNS; j++) {
 				if (board.getCellAt(i, j).isDoorway()) {
-					
 					totalDoors++;
 				}
 			}
