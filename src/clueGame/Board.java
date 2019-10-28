@@ -143,7 +143,7 @@ public class Board {
 	public void calcAdjacencies() {
 		//Initialize boardcell objects to store temporary data
 		BoardCell currentCell;
-		BoardCell addCell;
+		BoardCell adjacentCell;
 		Set <BoardCell> tempSet = new HashSet<>();
 		//Calculates adjacent spaces
 		for (int i = 0; i <this.numRows; i++) {
@@ -185,56 +185,47 @@ public class Board {
 				
 				//LEFT CELL
 				if (i-1 >= 0) {
-					addCell = getCellAt(i-1,j);
-					if (!addCell.isDoorway() && !addCell.isRoom()) {
-					tempSet.add(addCell);
+					adjacentCell = getCellAt(i-1,j);
+					if (!adjacentCell.isDoorway() && !adjacentCell.isRoom()) {
+					tempSet.add(adjacentCell);
 					} 
-					else if (addCell.getDir() == DoorDirection.DOWN) {
-						tempSet.add(addCell);
+					else if (adjacentCell.getDir() == DoorDirection.DOWN) {
+						tempSet.add(adjacentCell);
 					}		
 				}
 				//TOP CELL
 				if (j-1 >= 0) {
-					addCell = getCellAt(i,j-1);
-					if (!addCell.isDoorway() && !addCell.isRoom()) {
-					tempSet.add(addCell);
+					adjacentCell = getCellAt(i,j-1);
+					if (!adjacentCell.isDoorway() && !adjacentCell.isRoom()) {
+					tempSet.add(adjacentCell);
 					} 
-					else if (addCell.getDir() == DoorDirection.RIGHT) {
-						tempSet.add(addCell);
+					else if (adjacentCell.getDir() == DoorDirection.RIGHT) {
+						tempSet.add(adjacentCell);
 					}
 				}
 				//RIGHT CELL
 				if (i+1 < this.numRows) {
-					addCell = getCellAt(i+1,j);
-					if (!addCell.isDoorway() && !addCell.isRoom()) {
-					tempSet.add(addCell);
+					adjacentCell = getCellAt(i+1,j);
+					if (!adjacentCell.isDoorway() && !adjacentCell.isRoom()) {
+					tempSet.add(adjacentCell);
 					} 
-					else if (addCell.getDir() == DoorDirection.UP) {
-						tempSet.add(addCell);
+					else if (adjacentCell.getDir() == DoorDirection.UP) {
+						tempSet.add(adjacentCell);
 					}
 				}
 				//BOTTOM CELL
 				if (j+1 < this.numColumns) {
-					addCell = getCellAt(i,j+1);
-					if (!addCell.isDoorway() && !addCell.isRoom()) {
-					tempSet.add(addCell);
+					adjacentCell = getCellAt(i,j+1);
+					if (!adjacentCell.isDoorway() && !adjacentCell.isRoom()) {
+					tempSet.add(adjacentCell);
 					} 
-					else if (addCell.getDir() == DoorDirection.LEFT) {
-						tempSet.add(addCell);
+					else if (adjacentCell.getDir() == DoorDirection.LEFT) {
+						tempSet.add(adjacentCell);
 					}
 				}
 				this.adjMatrix.put(currentCell,tempSet);
 			}
 		}
-	}
-	
-	public BoardCell isValidCell(int x, int y) {
-		BoardCell adjCell = getCellAt(x,y);
-		//LEFT CELL
-		//TOP CELL
-		//RIGHT CELL
-		//BOTTOM CELL
-		return null;
 	}
 	
 	//Returns the adjacency matrix value associated with the given coordinates
