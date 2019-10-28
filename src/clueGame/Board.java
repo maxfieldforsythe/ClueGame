@@ -154,7 +154,6 @@ public class Board {
 				if (currentCell.isRoom()) {
 					
 					this.adjMatrix.put(getCellAt(i,j),tempSet);
-
 					continue;
 				}
 				//Checks the if the cell is a doorway and then adds their adjacent space based on direction
@@ -162,25 +161,21 @@ public class Board {
 					if (currentCell.getDir() == DoorDirection.RIGHT) {
 						tempSet.add(getCellAt(i,j+1));
 						this.adjMatrix.put(currentCell,tempSet);
-
 						continue;
 					}
 					if (currentCell.getDir() == DoorDirection.LEFT) {
 						tempSet.add(getCellAt(i,j-1));
 						this.adjMatrix.put(currentCell,tempSet);
-
 						continue;
 					}
 					if (currentCell.getDir() == DoorDirection.UP) {
 						tempSet.add(getCellAt(i-1,j));
 						this.adjMatrix.put(currentCell,tempSet);
-
 						continue;
 					}
 					if (currentCell.getDir() == DoorDirection.DOWN) {
 						tempSet.add(getCellAt(i+1,j));
 						this.adjMatrix.put(currentCell,tempSet);
-
 						continue;
 					}
 				}
@@ -197,9 +192,7 @@ public class Board {
 						addCell.setRow(i-1);
 						addCell.setColumn(j);
 						tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
-					}
-					
-					
+					}		
 				}
 				//TOP CELL
 				if (j-1 >= 0) {
@@ -242,10 +235,8 @@ public class Board {
 				}
 				this.adjMatrix.put(getCellAt(currentCell.getRow(),currentCell.getColumn()),tempSet);
 			}
-			
 		}
 	}
-	
 	
 	//Returns the adjacency matrix value associated with the given coordinates
 	public Set<BoardCell> getAdjList(int i, int j) {
@@ -259,9 +250,7 @@ public class Board {
 	}
 	//Recursive function to calculate the targets at a given path length
 	public void calcTargets(int row, int column, int pathLength) {
-		
 	
-		
 		for (BoardCell cell : adjMatrix.get(this.getCellAt(row, column))) {
 			if (visited.contains(cell)) {
 				continue;
@@ -278,8 +267,7 @@ public class Board {
 				targets.add(cell);
 			}
 			visited.remove(cell);
-		}
-		
+		}	
 	}
 
 	//Gets target set
