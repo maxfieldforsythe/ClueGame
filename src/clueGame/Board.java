@@ -71,7 +71,7 @@ public class Board {
 		    	throw new BadConfigFormatException();
 		    this.legend.put(initialOfRoom, roomConfigArray[1]);
 		}
-		scanner.close();
+		//scanner.close();
 	}
 	
 	public void loadBoardConfig() throws BadConfigFormatException{
@@ -286,6 +286,7 @@ public class Board {
 	public Set<BoardCell> getTargets() {
 		Set<BoardCell> temp = new HashSet<>();
 		temp = targets;
+		//TODO: This needs to be fixed somewhere else 
 		targets = new HashSet<BoardCell>();
 		visited = new HashSet<BoardCell>();
 		return temp;
