@@ -223,7 +223,7 @@ public class Board {
 						tempSet.add(addCell);
 					}
 				}
-				this.adjMatrix.put(getCellAt(currentCell.getRow(),currentCell.getColumn()),tempSet);
+				this.adjMatrix.put(currentCell,tempSet);
 			}
 		}
 	}
