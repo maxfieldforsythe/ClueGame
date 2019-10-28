@@ -143,7 +143,7 @@ public class Board {
 	public void calcAdjacencies() {
 		//Initialize boardcell objects to store temporary data
 		BoardCell currentCell;
-		BoardCell addCell = new BoardCell();
+		BoardCell addCell;
 		Set <BoardCell> tempSet = new HashSet<>();
 		//Calculates adjacent spaces
 		for (int i = 0; i <this.numRows; i++) {
@@ -187,20 +187,21 @@ public class Board {
 				//For each space, while taking into account edge pieces, adds the surrounding spaces to the adjacenecy list
 				//If not a door or a room, adds the space to the list
 				//If it is a door which matching direction, it will add the door space
+				
+				//LEFT CELL
 				if (i-1 >= 0) {
-					addCell = new BoardCell();
-					if (!this.getCellAt(i-1,j).isDoorway() && !this.getCellAt(i-1,j).isRoom()) {
-						
-					
-					addCell.setRow(i-1);
-					addCell.setColumn(j);
-					tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
+					addCell = getCellAt(i-1,j);
+					if (!addCell.isDoorway() && !addCell.isRoom()) {
+					tempSet.add(addCell);
 					} else if (this.getCellAt(i-1,j).getDir() == DoorDirection.DOWN) {
 						addCell.setRow(i-1);
 						addCell.setColumn(j);
 						tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
 					}
+					
+					
 				}
+				//TOP CELL
 				if (j-1 >= 0) {
 					addCell = new BoardCell();
 					if (!this.getCellAt(i,j-1).isDoorway()  && !this.getCellAt(i,j-1).isRoom()) {
@@ -213,6 +214,7 @@ public class Board {
 						tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
 					}
 				}
+				//RIGHT CELL
 				if (i+1 < this.numRows) {
 					addCell = new BoardCell();
 					if (!this.getCellAt(i+1,j).isDoorway()  && !this.getCellAt(i+1,j).isRoom()) {
@@ -225,6 +227,7 @@ public class Board {
 						tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
 					}
 				}
+				//BOTTOM CELL
 				if (j+1 < this.numColumns) {
 					addCell = new BoardCell();
 					if (!this.getCellAt(i,j+1).isDoorway()  && !this.getCellAt(i,j+1).isRoom()) {
