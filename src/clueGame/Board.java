@@ -284,7 +284,7 @@ public class Board {
 
 	//Gets target set
 	public Set<BoardCell> getTargets() {
-		Set temp = new HashSet<BoardCell>();
+		Set<BoardCell> temp = new HashSet<>();
 		temp = targets;
 		targets = new HashSet<BoardCell>();
 		visited = new HashSet<BoardCell>();
