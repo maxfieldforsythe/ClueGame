@@ -188,54 +188,53 @@ public class Board {
 					addCell = getCellAt(i-1,j);
 					if (!addCell.isDoorway() && !addCell.isRoom()) {
 					tempSet.add(addCell);
-					} else if (this.getCellAt(i-1,j).getDir() == DoorDirection.DOWN) {
-						addCell.setRow(i-1);
-						addCell.setColumn(j);
-						tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
+					} 
+					else if (addCell.getDir() == DoorDirection.DOWN) {
+						tempSet.add(addCell);
 					}		
 				}
 				//TOP CELL
 				if (j-1 >= 0) {
-					addCell = new BoardCell();
-					if (!this.getCellAt(i,j-1).isDoorway()  && !this.getCellAt(i,j-1).isRoom()) {
-					addCell.setRow(i);
-					addCell.setColumn(j-1);
-					tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
-					} else if (this.getCellAt(i,j-1).getDir() == DoorDirection.RIGHT) {
-						addCell.setRow(i);
-						addCell.setColumn(j-1);
-						tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
+					addCell = getCellAt(i,j-1);
+					if (!addCell.isDoorway() && !addCell.isRoom()) {
+					tempSet.add(addCell);
+					} 
+					else if (addCell.getDir() == DoorDirection.RIGHT) {
+						tempSet.add(addCell);
 					}
 				}
 				//RIGHT CELL
 				if (i+1 < this.numRows) {
-					addCell = new BoardCell();
-					if (!this.getCellAt(i+1,j).isDoorway()  && !this.getCellAt(i+1,j).isRoom()) {
-					addCell.setRow(i +1);
-					addCell.setColumn(j);
-					tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
-					} else if (this.getCellAt(i+1,j).getDir() == DoorDirection.UP) {
-						addCell.setRow(i+1);
-						addCell.setColumn(j);
-						tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
+					addCell = getCellAt(i+1,j);
+					if (!addCell.isDoorway() && !addCell.isRoom()) {
+					tempSet.add(addCell);
+					} 
+					else if (addCell.getDir() == DoorDirection.UP) {
+						tempSet.add(addCell);
 					}
 				}
 				//BOTTOM CELL
 				if (j+1 < this.numColumns) {
-					addCell = new BoardCell();
-					if (!this.getCellAt(i,j+1).isDoorway()  && !this.getCellAt(i,j+1).isRoom()) {
-					addCell.setRow(i);
-					addCell.setColumn(j+1);
-					tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
-					} else if (this.getCellAt(i,j+1).getDir() == DoorDirection.LEFT) {
-						addCell.setRow(i);
-						addCell.setColumn(j+1);
-						tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
+					addCell = getCellAt(i,j+1);
+					if (!addCell.isDoorway() && !addCell.isRoom()) {
+					tempSet.add(addCell);
+					} 
+					else if (addCell.getDir() == DoorDirection.LEFT) {
+						tempSet.add(addCell);
 					}
 				}
 				this.adjMatrix.put(getCellAt(currentCell.getRow(),currentCell.getColumn()),tempSet);
 			}
 		}
+	}
+	
+	public BoardCell isValidCell(int x, int y) {
+		BoardCell adjCell = getCellAt(x,y);
+		//LEFT CELL
+		//TOP CELL
+		//RIGHT CELL
+		//BOTTOM CELL
+		return null;
 	}
 	
 	//Returns the adjacency matrix value associated with the given coordinates
