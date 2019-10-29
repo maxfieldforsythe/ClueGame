@@ -9,21 +9,29 @@ public class BoardCell {
 	private int column;
 	private char initial;
 	private boolean door;
-	private DoorDirection dir;
+	private DoorDirection direction;
 	private boolean room;
 	
 	public BoardCell() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	public BoardCell(int row, int column, char initial, boolean door, DoorDirection direction, boolean room) {
+		this.row = row;
+		this.column = column;
+		this.initial = initial;
+		this.door = door;
+		this.direction = direction;
+		this.room = room;
+	}
 	public void setDoor(boolean i) {
 		this.door = i;
 	}
 	public void setDir(DoorDirection d) {
-		this.dir = d;
+		this.direction = d;
 	}
 	public DoorDirection getDir() {
-		return dir;
+		return direction;
 	}
  	public boolean isWalkway() {
 		return true;
@@ -47,7 +55,7 @@ public class BoardCell {
 	}
 
 	public DoorDirection getDoorDirection() {
-		return this.dir;
+		return this.direction;
 	}
 
 	public char getInitial() {

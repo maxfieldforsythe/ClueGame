@@ -63,14 +63,15 @@ public class Board {
 		//Loop to map the character aka initial of each legend item to its name
 		while(scanner.hasNextLine()){
 		    String line = scanner.nextLine();
-		    String[] strArr = line.split(", ", -2);
-		    Character ch = strArr[0].charAt(0);
+		    String[] roomConfigArray = line.split(", ", -2);
+		    Character initialOfRoom = roomConfigArray[0].charAt(0);
+		    
 		    //throws exception if it is the wrong type
-		    if (!strArr[2].contentEquals("Card") && !strArr[2].contentEquals("Other") )
+		    if (!roomConfigArray[2].contentEquals("Card") && !roomConfigArray[2].contentEquals("Other") )
 		    	throw new BadConfigFormatException();
-		    this.legend.put(ch, strArr[1]);
+		    this.legend.put(initialOfRoom, roomConfigArray[1]);
 		}
-		scanner.close();
+		//scanner.close();
 	}
 	
 	public void loadBoardConfig() throws BadConfigFormatException{
@@ -89,11 +90,9 @@ public class Board {
 		    String[] strArr = line.split(",", -2);
 		    arrays.add(strArr);
 		    		}
-		scanner.close();
 		//Sets length of columns and length of rows
 		this.numColumns = arrays.get(0).length;
 		for (String[] s: arrays) {
-			System.out.println();
 			if (s.length != numColumns)
 				throw new BadConfigFormatException();
 		}
@@ -104,37 +103,37 @@ public class Board {
 		//This includes the initial, isDoor, and direction of door
 		for (int i = 0; i < this.numRows; i++) {
 			for(int j = 0; j < this.numColumns; j++) {
-				BoardCell temp = new BoardCell();
-				temp.setRow(i);
-				temp.setColumn(j);
+				BoardCell currentCell = new BoardCell();
+				currentCell.setRow(i);
+				currentCell.setColumn(j);
 				char c = arrays.get(i)[j].charAt(0);
-				temp.setInitial(c);
+				currentCell.setInitial(c);
 				if (arrays.get(i)[j].length() > 1) {
 					if (arrays.get(i)[j].charAt(1) != 'N' ) {
 						
-						temp.setDoor (true);
+						currentCell.setDoor (true);
 					} 
 					if (arrays.get(i)[j].charAt(1) == 'R') {
-						temp.setDir(DoorDirection.RIGHT);
+						currentCell.setDir(DoorDirection.RIGHT);
 					}
 					if (arrays.get(i)[j].charAt(1) == 'U') {
-						temp.setDir(DoorDirection.UP);
+						currentCell.setDir(DoorDirection.UP);
 					}
 					if (arrays.get(i)[j].charAt(1) == 'D') {
-						temp.setDir(DoorDirection.DOWN);
+						currentCell.setDir(DoorDirection.DOWN);
 					}
 					if (arrays.get(i)[j].charAt(1) == 'L') {
-						temp.setDir(DoorDirection.LEFT);
+						currentCell.setDir(DoorDirection.LEFT);
 					}
 					
 				} else {
 					if (arrays.get(i)[j].charAt(0) != 'W' ) {
-						temp.setRoom(true);
+						currentCell.setRoom(true);
 					}
 				}
 				//Sets board cell equal to the data stored in a temp cell.
 				//Temp cell is where the csv data is stored 
-				board[i][j] = temp;
+				board[i][j] = currentCell;
 
 			}
 		}
@@ -143,133 +142,105 @@ public class Board {
 	
 	public void calcAdjacencies() {
 		//Initialize boardcell objects to store temporary data
-		BoardCell tempCell = new BoardCell();
-		BoardCell addCell = new BoardCell();
-		Set tempSet = new HashSet<BoardCell>();
+		BoardCell currentCell;
+		BoardCell adjacentCell;
+		Set <BoardCell> tempSet = new HashSet<>();
 		//Calculates adjacent spaces
 		for (int i = 0; i <this.numRows; i++) {
 			for (int j = 0; j < this.numColumns; j++) {
-				tempCell = new BoardCell();
+				currentCell = getCellAt(i,j);
 				tempSet = new HashSet<BoardCell>();
-				tempCell.setRow(i);
-				tempCell.setColumn(j);
 				//If cell is a room add empty set to adjMatrix and continue. If it is closet. Add nothing
-				if (getCellAt(tempCell.getRow(),tempCell.getColumn()).isRoom()) {
+				if (currentCell.isRoom()) {
 					
-					this.adjMatrix.put(getCellAt(tempCell.getRow(),tempCell.getColumn()),tempSet);
-
+					this.adjMatrix.put(getCellAt(i,j),tempSet);
 					continue;
 				}
 				//Checks the if the cell is a doorway and then adds their adjacent space based on direction
-				if (getCellAt(tempCell.getRow(),tempCell.getColumn()).isDoorway()) {
-					if (getCellAt(tempCell.getRow(),tempCell.getColumn()).getDir() == DoorDirection.RIGHT) {
-						addCell.setRow(i);
-						addCell.setColumn(j+1);
-						tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
-						this.adjMatrix.put(getCellAt(tempCell.getRow(),tempCell.getColumn()),tempSet);
-
+				if (currentCell.isDoorway()) {
+					if (currentCell.getDir() == DoorDirection.RIGHT) {
+						tempSet.add(getCellAt(i,j+1));
+						this.adjMatrix.put(currentCell,tempSet);
 						continue;
 					}
-					if (getCellAt(tempCell.getRow(),tempCell.getColumn()).getDir() == DoorDirection.LEFT) {
-						addCell.setRow(i);
-						addCell.setColumn(j-1);
-						tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
-						this.adjMatrix.put(getCellAt(tempCell.getRow(),tempCell.getColumn()),tempSet);
-
+					if (currentCell.getDir() == DoorDirection.LEFT) {
+						tempSet.add(getCellAt(i,j-1));
+						this.adjMatrix.put(currentCell,tempSet);
 						continue;
 					}
-					if (getCellAt(tempCell.getRow(),tempCell.getColumn()).getDir() == DoorDirection.UP) {
-						addCell.setRow(i-1);
-						addCell.setColumn(j);
-						tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
-						this.adjMatrix.put(getCellAt(tempCell.getRow(),tempCell.getColumn()),tempSet);
-
+					if (currentCell.getDir() == DoorDirection.UP) {
+						tempSet.add(getCellAt(i-1,j));
+						this.adjMatrix.put(currentCell,tempSet);
 						continue;
 					}
-					if (getCellAt(tempCell.getRow(),tempCell.getColumn()).getDir() == DoorDirection.DOWN) {
-						addCell.setRow(i +1);
-						addCell.setColumn(j);
-						tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
-						this.adjMatrix.put(getCellAt(tempCell.getRow(),tempCell.getColumn()),tempSet);
-
+					if (currentCell.getDir() == DoorDirection.DOWN) {
+						tempSet.add(getCellAt(i+1,j));
+						this.adjMatrix.put(currentCell,tempSet);
 						continue;
 					}
 				}
 				//For each space, while taking into account edge pieces, adds the surrounding spaces to the adjacenecy list
 				//If not a door or a room, adds the space to the list
 				//If it is a door which matching direction, it will add the door space
+				
+				//LEFT CELL
 				if (i-1 >= 0) {
-					addCell = new BoardCell();
-					if (!this.getCellAt(i-1,j).isDoorway() && !this.getCellAt(i-1,j).isRoom()) {
-						
-					
-					addCell.setRow(i-1);
-					addCell.setColumn(j);
-					tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
-					} else if (this.getCellAt(i-1,j).getDir() == DoorDirection.DOWN) {
-						addCell.setRow(i-1);
-						addCell.setColumn(j);
-						tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
-					}
+					adjacentCell = getCellAt(i-1,j);
+					if (!adjacentCell.isDoorway() && !adjacentCell.isRoom()) {
+					tempSet.add(adjacentCell);
+					} 
+					else if (adjacentCell.getDir() == DoorDirection.DOWN) {
+						tempSet.add(adjacentCell);
+					}		
 				}
+				//TOP CELL
 				if (j-1 >= 0) {
-					addCell = new BoardCell();
-					if (!this.getCellAt(i,j-1).isDoorway()  && !this.getCellAt(i,j-1).isRoom()) {
-					addCell.setRow(i);
-					addCell.setColumn(j-1);
-					tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
-					} else if (this.getCellAt(i,j-1).getDir() == DoorDirection.RIGHT) {
-						addCell.setRow(i);
-						addCell.setColumn(j-1);
-						tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
+					adjacentCell = getCellAt(i,j-1);
+					if (!adjacentCell.isDoorway() && !adjacentCell.isRoom()) {
+					tempSet.add(adjacentCell);
+					} 
+					else if (adjacentCell.getDir() == DoorDirection.RIGHT) {
+						tempSet.add(adjacentCell);
 					}
 				}
+				//RIGHT CELL
 				if (i+1 < this.numRows) {
-					addCell = new BoardCell();
-					if (!this.getCellAt(i+1,j).isDoorway()  && !this.getCellAt(i+1,j).isRoom()) {
-					addCell.setRow(i +1);
-					addCell.setColumn(j);
-					tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
-					} else if (this.getCellAt(i+1,j).getDir() == DoorDirection.UP) {
-						addCell.setRow(i+1);
-						addCell.setColumn(j);
-						tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
+					adjacentCell = getCellAt(i+1,j);
+					if (!adjacentCell.isDoorway() && !adjacentCell.isRoom()) {
+					tempSet.add(adjacentCell);
+					} 
+					else if (adjacentCell.getDir() == DoorDirection.UP) {
+						tempSet.add(adjacentCell);
 					}
 				}
+				//BOTTOM CELL
 				if (j+1 < this.numColumns) {
-					addCell = new BoardCell();
-					if (!this.getCellAt(i,j+1).isDoorway()  && !this.getCellAt(i,j+1).isRoom()) {
-					addCell.setRow(i);
-					addCell.setColumn(j+1);
-					tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
-					} else if (this.getCellAt(i,j+1).getDir() == DoorDirection.LEFT) {
-						addCell.setRow(i);
-						addCell.setColumn(j+1);
-						tempSet.add(getCellAt(addCell.getRow(),addCell.getColumn()));
+					adjacentCell = getCellAt(i,j+1);
+					if (!adjacentCell.isDoorway() && !adjacentCell.isRoom()) {
+					tempSet.add(adjacentCell);
+					} 
+					else if (adjacentCell.getDir() == DoorDirection.LEFT) {
+						tempSet.add(adjacentCell);
 					}
 				}
-				this.adjMatrix.put(getCellAt(tempCell.getRow(),tempCell.getColumn()),tempSet);
+				this.adjMatrix.put(currentCell,tempSet);
 			}
-			
 		}
 	}
-	
 	
 	//Returns the adjacency matrix value associated with the given coordinates
 	public Set<BoardCell> getAdjList(int i, int j) {
 		
 		for (BoardCell key: adjMatrix.keySet()) {
 			if (key.getRow() == i && key.getColumn() == j) {
-				return adjMatrix.get(key);			}
-			
+				return adjMatrix.get(key);			
+				}		
 		}
 		return null;
 	}
 	//Recursive function to calculate the targets at a given path length
 	public void calcTargets(int row, int column, int pathLength) {
-		
 	
-		
 		for (BoardCell cell : adjMatrix.get(this.getCellAt(row, column))) {
 			if (visited.contains(cell)) {
 				continue;
@@ -286,14 +257,14 @@ public class Board {
 				targets.add(cell);
 			}
 			visited.remove(cell);
-		}
-		
+		}	
 	}
 
 	//Gets target set
 	public Set<BoardCell> getTargets() {
-		Set temp = new HashSet<BoardCell>();
+		Set<BoardCell> temp = new HashSet<>();
 		temp = targets;
+		//TODO: This needs to be fixed somewhere else 
 		targets = new HashSet<BoardCell>();
 		visited = new HashSet<BoardCell>();
 		return temp;
