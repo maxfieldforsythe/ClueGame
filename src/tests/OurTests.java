@@ -8,6 +8,7 @@ import static org.junit.Assert.*;
 
 import java.util.Map;
 
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -17,10 +18,13 @@ import clueGame.DoorDirection;
 
 public class OurTests {
 
-	public static final int LEGEND_SIZE = 10;
+	public static final int LEGEND_SIZE = 11;
 	public static final int NUM_ROWS = 21;
 	public static final int NUM_COLUMNS = 22;
 	private static Board board;
+	
+	//could we also add a @before so it resets the board for
+	//each test?
 	
 	@BeforeClass
 	public static void setUp() {
@@ -31,6 +35,7 @@ public class OurTests {
 		// Initialize will load BOTH config files 
 		board.initialize();
 	}
+
 	@Test
 	public void testLegend() {
 		Map<Character, String> legend = board.getLegend();
