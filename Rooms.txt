@@ -6,5 +6,6 @@ U, Studio, Card
 B, Bar, Card
 D, Dining room, Card
 H, Hall, Card
-C, Closet, Other
+C, Common Room, Card
+X, Closet, Other
 W, Walkway, Other
