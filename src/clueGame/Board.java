@@ -28,6 +28,8 @@ public class Board {
 	private String boardConfigFile;
 	private String roomConfigFile;
 	private static Board theInstance = new Board();
+	private Set<Player> playerList;
+	private Set<Card> cardDeck;
 	
 	public Board() {
 		
@@ -137,6 +139,14 @@ public class Board {
 
 			}
 		}
+		
+	}
+	
+	public void loadPlayers() {
+		
+	}
+	
+	public void loadCards() {
 		
 	}
 	
