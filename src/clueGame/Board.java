@@ -49,6 +49,8 @@ public class Board {
 		playerList = new ArrayList<Player>();
 		try{this.loadBoardConfig();
 			this.loadRoomConfig();
+			this.loadPlayers();
+			this.loadCards();
 		}catch(BadConfigFormatException e){
 			System.out.println(e.getMessage());
 		}
@@ -56,8 +58,7 @@ public class Board {
 		this.calcAdjacencies();
 		targets = new HashSet<BoardCell>();
 		visited = new HashSet<BoardCell>();
-		this.loadPlayers();
-		this.loadCards();
+
 	}
 	
 	public void loadRoomConfig() throws BadConfigFormatException{
@@ -149,8 +150,38 @@ public class Board {
 		
 	}
 	//Function to load in data from player config file
-	public void loadPlayers() {
-
+	public void loadPlayers() throws BadConfigFormatException {
+		//Creates arrayList of arrays to store the string split arrays when 			reading in lines from csv
+		ArrayList<String[]> arrays = new ArrayList<String[]>();
+		FileReader reader = null;
+		try {
+			reader = new FileReader(playerConfigFile);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} 
+		//splits by , and then stores the resulting array in an array list
+		Scanner scanner = new Scanner(reader);
+		while(scanner.hasNextLine()){
+		    String line = scanner.nextLine();
+		    String[] strArr = line.split(", ", -2);
+		    arrays.add(strArr);
+		    		}
+		
+			Player tempPlayer;
+		for (String[] str: arrays) {
+			
+			if  (str.length == 5) {
+			tempPlayer = new HumanPlayer();
+			} else {
+				tempPlayer = new ComputerPlayer();
+			}
+			
+			tempPlayer.setName(str[0]);
+			tempPlayer.setColor(convertColor(str[1]));
+			tempPlayer.setRow(Integer.parseInt(str[2]));			
+			tempPlayer.setColumn(Integer.parseInt(str[3]));
+			this.playerList.add(tempPlayer);
+		}
 	}
 	
 	public void loadCards() {
@@ -334,16 +365,28 @@ public class Board {
 	
 	//returns num of human players in set
 	public int numHuman() {
-		return 0;
+		int i = 0;
+		for (Player pl: playerList) {
+			if (pl instanceof HumanPlayer) {
+				i++;
+				}
+		}
+		return i;
 	}
 	
 	//returns num of computer players in set
 	public int numComp() {
-		return 0;
+		int i = 0;
+		for (Player pl: playerList) {
+			if (pl instanceof ComputerPlayer) {
+				i++;
+				}
+		}
+		return i;
 	}
 	
 	public Player getPlayer(int i) {
-		return null;
+		return playerList.get(i);
 	}
 
 }

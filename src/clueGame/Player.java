@@ -7,8 +7,9 @@ public abstract class Player {
 	private int row;
 	private int column;
 	private Color color;
+	
 	public Player() {
-		// TODO Auto-generated constructor stub
+		
 	}
 	public Card disproveSuggestion(Solution suggestion) {
 		return null;
@@ -30,4 +31,21 @@ public abstract class Player {
 	public Color getColor() {
 		return this.color;
 	}
+	
+	public void setName(String i) {
+		this.playerName = i;
+	}
+	public void setRow(int row) {
+		this.row = row;
+	}
+	public void setColumn(int column) {
+		this.column = column;
+	}
+	
+	public void setColor(Color convertColor) {
+		this.color = convertColor;
+		
+	}
+	
+	
 }

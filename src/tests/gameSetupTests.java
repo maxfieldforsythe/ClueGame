@@ -38,19 +38,19 @@ public class gameSetupTests {
 		assertEquals("Magic Mouse", board.getPlayer(0).getName());
 		assertEquals(20, board.getPlayer(0).getRow());
 		assertEquals(6, board.getPlayer(0).getColumn());
-		assertEquals(board.convertColor("Yellow"), board.getPlayer(0).getColor());
+		assertEquals(board.convertColor("yellow"), board.getPlayer(0).getColor());
 		
 		//Third player
 		assertEquals("The President", board.getPlayer(2).getName());
 		assertEquals(15, board.getPlayer(2).getRow());
 		assertEquals(21, board.getPlayer(2).getColumn());
-		assertEquals(board.convertColor("Blue"), board.getPlayer(2).getColor());
+		assertEquals(board.convertColor("blue"), board.getPlayer(2).getColor());
 		
 		//Last player
 		assertEquals("Rabid Dog", board.getPlayer(5).getName());
 		assertEquals(6, board.getPlayer(5).getRow());
 		assertEquals(12, board.getPlayer(5).getColumn());
-		assertEquals(board.convertColor("Brown"), board.getPlayer(5).getColor());
+		assertEquals(board.convertColor("brown"), board.getPlayer(5).getColor());
 		
 		
 	}
