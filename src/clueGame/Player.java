@@ -14,4 +14,20 @@ public abstract class Player {
 		return null;
 	};
 	
+	//*****TEST FUNCTIONS*****
+	public String getName() {
+		return this.playerName;
+	}
+	
+	public int getRow() {
+		return this.row;
+	}
+	
+	public int getColumn() {
+		return this.column;
+	}
+	
+	public Color getColor() {
+		return this.color;
+	}
 }

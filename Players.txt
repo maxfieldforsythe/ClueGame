@@ -1,6 +1,6 @@
-Mr Mouse, Y, 20, 6
+Magic Mouse, Y, 20, 6
 Sgt Pepper, Bk, 20, 11
 The President, Bl, 15, 21
-Frank, G, 0, 16
+Carol, G, 0, 16
 Small Child, P, 9, 6
 Rabid Dog, 6, 12
