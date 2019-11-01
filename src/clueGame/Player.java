@@ -1,19 +1,24 @@
 package clueGame;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 public abstract class Player {
 	private String playerName;
 	private int row;
 	private int column;
 	private Color color;
+	private ArrayList<Card> myCards;
 	
 	public Player() {
-		
+		myCards = new ArrayList<>();
 	}
 	public Card disproveSuggestion(Solution suggestion) {
 		return null;
 	};
+	public void addCard(Card card) {
+		myCards.add(card);
+	}
 	
 	//*****TEST FUNCTIONS*****
 	public String getName() {
@@ -30,6 +35,9 @@ public abstract class Player {
 	
 	public Color getColor() {
 		return this.color;
+	}
+	public ArrayList<Card> getCards(){
+		return myCards;
 	}
 	
 	public void setName(String i) {

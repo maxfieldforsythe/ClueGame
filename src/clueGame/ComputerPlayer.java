@@ -1,11 +1,12 @@
 package clueGame;
 
+import java.awt.Color;
 import java.util.Set;
 
 public class ComputerPlayer extends Player{
 
-	public ComputerPlayer() {
-		// TODO Auto-generated constructor stub
+	public ComputerPlayer(){
+		super();
 	}
 	public BoardCell pickLocation(Set<BoardCell> targets) {
 		return null;

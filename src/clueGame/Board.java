@@ -7,6 +7,7 @@ package clueGame;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -226,6 +227,22 @@ public class Board {
 		}
 	}
 	
+	public void shuffleAndDealCards() {
+		int playerIterator = 0;
+		int numPlayers = playerList.size();
+		ArrayList<Card> cardList = new ArrayList<>();
+		
+		for (Card card: cardDeck) {
+			cardList.add(card);
+		}
+		Collections.shuffle(cardList);
+		
+		for (Card card: cardList) {
+			playerList.get(playerIterator % numPlayers).addCard(card);
+			playerIterator++;
+		}
+	}
+	
 	public Card getCard(String name, CardType type) {
 		
 		for (Card card : cardDeck) {
@@ -436,6 +453,9 @@ public class Board {
 	
 	public Player getPlayer(int i) {
 		return playerList.get(i);
+	}
+	public ArrayList<Player> getPlayerList(){
+		return playerList;
 	}
 	
 	public Set<Card> getDeckOfCards(){

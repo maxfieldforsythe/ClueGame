@@ -2,6 +2,8 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.BeforeClass;
@@ -10,6 +12,7 @@ import org.junit.Test;
 import clueGame.Board;
 import clueGame.Card;
 import clueGame.CardType;
+import clueGame.Player;
 
 public class gameSetupTests {
 
@@ -86,7 +89,17 @@ public class gameSetupTests {
 	
 	@Test
 	public void dealCards() {
-		//TODO
+		
+		board.shuffleAndDealCards();
+		ArrayList<Player> playerList = board.getPlayerList();
+		
+		Set<Card> testCardsDealt = new HashSet<>();
+		for (Player player: playerList) {
+			for(Card card: player.getCards()) {
+				testCardsDealt.add(card);
+			}
+		}
+		assert(testCardsDealt.equals(board.getDeckOfCards()));
 	}
 
 }
