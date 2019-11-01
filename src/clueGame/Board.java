@@ -12,6 +12,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+import java.awt.Color;
+import java.lang.reflect.Field;
 
 import clueGame.BoardCell;
 
@@ -27,7 +29,11 @@ public class Board {
 	private Set<BoardCell> visited;
 	private String boardConfigFile;
 	private String roomConfigFile;
+	private String playerConfigFile;
+	private String weaponConfigFile;
 	private static Board theInstance = new Board();
+	private ArrayList<Player> playerList;
+	private Set<Card> cardDeck;
 	
 	public Board() {
 		
@@ -40,6 +46,7 @@ public class Board {
 	public void initialize() {
 		//Initialize legend as hash map and load csv and legend files
 		legend = new HashMap<Character, String>();
+		playerList = new ArrayList<Player>();
 		try{this.loadBoardConfig();
 			this.loadRoomConfig();
 		}catch(BadConfigFormatException e){
@@ -49,6 +56,8 @@ public class Board {
 		this.calcAdjacencies();
 		targets = new HashSet<BoardCell>();
 		visited = new HashSet<BoardCell>();
+		this.loadPlayers();
+		this.loadCards();
 	}
 	
 	public void loadRoomConfig() throws BadConfigFormatException{
@@ -137,6 +146,14 @@ public class Board {
 
 			}
 		}
+		
+	}
+	//Function to load in data from player config file
+	public void loadPlayers() {
+
+	}
+	
+	public void loadCards() {
 		
 	}
 	
@@ -292,7 +309,41 @@ public class Board {
 		this.roomConfigFile = txt;
 
 	}
+	
+	public void setCardFiles(String players, String weapons) {
+		//Stores file path to a variable in the board
+		this.playerConfigFile = players;
+		this.weaponConfigFile = weapons;
+
+	}
+	
+	public Color convertColor(String strColor) {
+		Color color; 
+		try {  
+			Field field =Class.forName("java.awt.Color").getField(strColor.trim());
+			color = (Color)field.get(null); 
+			} catch (Exception e) { 
+				color = null; 
+				}
+		return color;
+				}
+	
 
 
+	//*****THIS SECTION HAS FUNCTIONS THAT ARE FOR TESTING PURPOSES ONLY*****
+	
+	//returns num of human players in set
+	public int numHuman() {
+		return 0;
+	}
+	
+	//returns num of computer players in set
+	public int numComp() {
+		return 0;
+	}
+	
+	public Player getPlayer(int i) {
+		return null;
+	}
 
 }
