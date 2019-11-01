@@ -57,12 +57,12 @@ public class gameSetupTests {
 	
 	@Test
 	public void deckOfCards() {
-		//TODO
+		assertEquals(board.getDeckOfCards().size(), 21);
 	}
 	
 	@Test
 	public void dealCards() {
-		
+		//TODO
 	}
 
 }

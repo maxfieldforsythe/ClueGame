@@ -65,6 +65,7 @@ public class Board {
 	
 	public void loadRoomConfig() throws BadConfigFormatException{
 		//File reader to read layout csv
+		legendKeys = new ArrayList<>();
 		FileReader reader = null;
 		try {
 			reader = new FileReader(roomConfigFile);
@@ -188,8 +189,8 @@ public class Board {
 	}
 	
 	public void loadWeapons() {
-		ArrayList<String[]> arrays = new ArrayList<>();
 		FileReader reader = null;
+		weaponList = new ArrayList<>();
 		try {
 			reader = new FileReader(weaponConfigFile);
 		} catch (FileNotFoundException e) {
@@ -204,7 +205,8 @@ public class Board {
 	}
 	
 	public void loadCards() {
-		
+		cardDeck = new HashSet<>();
+		loadWeapons();
 		//add weapons
 		for(String weapon : weaponList) {
 			Card currentCard = new Card(weapon,CardType.WEAPON);
@@ -421,6 +423,10 @@ public class Board {
 	
 	public Player getPlayer(int i) {
 		return playerList.get(i);
+	}
+	
+	public Set<Card> getDeckOfCards(){
+		return cardDeck;
 	}
 
 }
