@@ -54,5 +54,15 @@ public class gameSetupTests {
 		
 		
 	}
+	
+	@Test
+	public void deckOfCards() {
+		//TODO
+	}
+	
+	@Test
+	public void dealCards() {
+		
+	}
 
 }

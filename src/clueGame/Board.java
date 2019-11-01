@@ -33,6 +33,8 @@ public class Board {
 	private String weaponConfigFile;
 	private static Board theInstance = new Board();
 	private ArrayList<Player> playerList;
+	private ArrayList<String> weaponList;
+	private ArrayList<Character> legendKeys;
 	private Set<Card> cardDeck;
 	
 	public Board() {
@@ -75,6 +77,7 @@ public class Board {
 		    String line = scanner.nextLine();
 		    String[] roomConfigArray = line.split(", ", -2);
 		    Character initialOfRoom = roomConfigArray[0].charAt(0);
+		    legendKeys.add(initialOfRoom);
 		    
 		    //throws exception if it is the wrong type
 		    if (!roomConfigArray[2].contentEquals("Card") && !roomConfigArray[2].contentEquals("Other") )
@@ -151,7 +154,7 @@ public class Board {
 	}
 	//Function to load in data from player config file
 	public void loadPlayers() throws BadConfigFormatException {
-		//Creates arrayList of arrays to store the string split arrays when 			reading in lines from csv
+		//Creates arrayList of arrays to store the string split arrays when reading in lines from csv
 		ArrayList<String[]> arrays = new ArrayList<String[]>();
 		FileReader reader = null;
 		try {
@@ -167,7 +170,7 @@ public class Board {
 		    arrays.add(strArr);
 		    		}
 		
-			Player tempPlayer;
+		Player tempPlayer;
 		for (String[] str: arrays) {
 			
 			if  (str.length == 5) {
@@ -184,8 +187,39 @@ public class Board {
 		}
 	}
 	
+	public void loadWeapons() {
+		ArrayList<String[]> arrays = new ArrayList<>();
+		FileReader reader = null;
+		try {
+			reader = new FileReader(weaponConfigFile);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} 
+		//splits by , and then stores the resulting array in an array list
+		Scanner scanner = new Scanner(reader);
+		while(scanner.hasNextLine()){
+		    String weapon = scanner.nextLine();
+		    weaponList.add(weapon);
+		    }
+	}
+	
 	public void loadCards() {
 		
+		//add weapons
+		for(String weapon : weaponList) {
+			Card currentCard = new Card(weapon,CardType.WEAPON);
+			cardDeck.add(currentCard);
+		}
+		//add people
+		for (Player person: playerList) {
+			Card currentCard = new Card(person.getName(),CardType.PERSON);
+			cardDeck.add(currentCard);
+		}
+		//add rooms
+		for (Character initial: legendKeys) {
+			Card currentCard = new Card(legend.get(initial),CardType.ROOM);
+			cardDeck.add(currentCard);
+		}
 	}
 	
 	public void calcAdjacencies() {
