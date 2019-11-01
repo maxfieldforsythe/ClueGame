@@ -75,10 +75,15 @@ public class gameSetupTests {
 				numWeapons++;
 			
 		}
+		//checks the deck size
 		assertEquals(21, deck.size());
+		
+		//checks for correct number of each type of card
 		assertEquals(6, numPeople);
 		assertEquals(6, numWeapons);
 		assertEquals(9, numRooms);
+		
+		//makes sure the deck loaded cards correctly
 		assert(deck.contains(board.getCard("Bazooka", CardType.WEAPON)));
 		assert(deck.contains(board.getCard("Carol", CardType.PERSON)));
 		assert(deck.contains(board.getCard("Kitchen", CardType.ROOM)));
@@ -91,15 +96,34 @@ public class gameSetupTests {
 	public void dealCards() {
 		
 		board.shuffleAndDealCards();
+		
+		//Gets player list so we can do tests with their cards
 		ArrayList<Player> playerList = board.getPlayerList();
+		boolean dealtTwice = false;
+		int avgCardsPerPlayer = board.getDeckOfCards().size() / board.getPlayerList().size();
 		
 		Set<Card> testCardsDealt = new HashSet<>();
 		for (Player player: playerList) {
+			//this test assures each player has roughly the same amount of cards
+			assert(player.getCards().size() <= avgCardsPerPlayer +1 &&
+					player.getCards().size() >= avgCardsPerPlayer -1);
+			//gets each player's set of cards
 			for(Card card: player.getCards()) {
+				//tests if a card already exists, then adds to test set
+				if (testCardsDealt.contains(card))
+					dealtTwice = true;
 				testCardsDealt.add(card);
+				
 			}
 		}
+		//if the test set is equal to the original deck of cards, true
 		assert(testCardsDealt.equals(board.getDeckOfCards()));
+		//No card should be dealt twice
+		assertFalse(dealtTwice);
+		
+		
+		
+		
 		
 	}
 
