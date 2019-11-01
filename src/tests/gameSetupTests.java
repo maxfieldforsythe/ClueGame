@@ -57,6 +57,7 @@ public class gameSetupTests {
 	
 	@Test
 	public void deckOfCards() {
+		int sizis = board.getDeckOfCards().size();
 		assertEquals(board.getDeckOfCards().size(), 21);
 	}
 	

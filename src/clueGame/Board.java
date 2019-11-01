@@ -219,8 +219,10 @@ public class Board {
 		}
 		//add rooms
 		for (Character initial: legendKeys) {
+			if (initial != 'X' && initial != 'W') {
 			Card currentCard = new Card(legend.get(initial),CardType.ROOM);
 			cardDeck.add(currentCard);
+			}
 		}
 	}
 	
