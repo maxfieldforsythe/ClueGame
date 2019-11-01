@@ -100,6 +100,7 @@ public class gameSetupTests {
 			}
 		}
 		assert(testCardsDealt.equals(board.getDeckOfCards()));
+		
 	}
 
 }
