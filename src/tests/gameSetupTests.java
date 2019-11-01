@@ -2,10 +2,14 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.util.Set;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import clueGame.Board;
+import clueGame.Card;
+import clueGame.CardType;
 
 public class gameSetupTests {
 
@@ -57,8 +61,27 @@ public class gameSetupTests {
 	
 	@Test
 	public void deckOfCards() {
-		int sizis = board.getDeckOfCards().size();
-		assertEquals(board.getDeckOfCards().size(), 21);
+		Set<Card> deck = board.getDeckOfCards();
+		int numWeapons = 0, numPeople = 0, numRooms = 0;
+		for (Card card : deck) {
+			if(card.getType() == CardType.PERSON)
+				numPeople++;
+			else if(card.getType() == CardType.ROOM)
+				numRooms++;
+			else if(card.getType() == CardType.WEAPON)
+				numWeapons++;
+			
+		}
+		assertEquals(21, deck.size());
+		assertEquals(6, numPeople);
+		assertEquals(6, numWeapons);
+		assertEquals(9, numRooms);
+		assert(deck.contains(board.getCard("Bazooka", CardType.WEAPON)));
+		assert(deck.contains(board.getCard("Carol", CardType.PERSON)));
+		assert(deck.contains(board.getCard("Kitchen", CardType.ROOM)));
+		
+				
+		
 	}
 	
 	@Test

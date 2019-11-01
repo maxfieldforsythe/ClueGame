@@ -226,6 +226,17 @@ public class Board {
 		}
 	}
 	
+	public Card getCard(String name, CardType type) {
+		
+		for (Card card : cardDeck) {
+			if (card.getName().contentEquals(name) && card.getType().equals(type)) {
+					return card;
+					}
+			
+		}
+		return null;
+	}
+	
 	public void calcAdjacencies() {
 		//Initialize boardcell objects to store temporary data
 		BoardCell currentCell;

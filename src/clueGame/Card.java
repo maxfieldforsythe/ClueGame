@@ -9,6 +9,13 @@ public class Card {
 		this.cardType = cardType;
 	}
 	
+	public String getName() {
+		return cardName;
+	}
+	
+	public CardType getType() {
+		return cardType;
+	}
 
 	@Override
 	public boolean equals(Object obj) {
