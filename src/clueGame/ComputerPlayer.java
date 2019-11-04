@@ -9,6 +9,8 @@ public class ComputerPlayer extends Player{
 		super();
 	}
 	public BoardCell pickLocation(Set<BoardCell> targets) {
+		
+		
 		return null;
 	}
 	public void makeAccusation() {

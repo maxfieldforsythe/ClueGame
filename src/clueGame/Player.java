@@ -2,6 +2,7 @@ package clueGame;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Set;
 
 public abstract class Player {
 	private String playerName;
@@ -19,6 +20,9 @@ public abstract class Player {
 	public void addCard(Card card) {
 		myCards.add(card);
 	}
+	
+	
+	public abstract BoardCell pickLocation (Set<BoardCell> targets);
 	
 	//*****TEST FUNCTIONS*****
 	public String getName() {
