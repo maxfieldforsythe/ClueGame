@@ -64,6 +64,8 @@ public class Board {
 
 	}
 	
+
+
 	public void loadRoomConfig() throws BadConfigFormatException{
 		//File reader to read layout csv
 		legendKeys = new ArrayList<>();
@@ -378,9 +380,7 @@ public class Board {
 	public Set<BoardCell> getTargets() {
 		Set<BoardCell> temp = new HashSet<>();
 		temp = targets;
-		//TODO: This needs to be fixed somewhere else 
-		targets = new HashSet<BoardCell>();
-		visited = new HashSet<BoardCell>();
+		
 		return temp;
 	}
 
@@ -462,4 +462,9 @@ public class Board {
 		return cardDeck;
 	}
 
+
+	public void clearTargets() {
+		targets = new HashSet<BoardCell>();
+		visited = new HashSet<BoardCell>();
+	}
 }

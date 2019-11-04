@@ -21,8 +21,12 @@ public class OurAdjTargetTests {
 			// set the file names to use my config files
 			board.setConfigFiles("GameBoard.csv", "Rooms.txt");		
 			// Initialize will load BOTH config files 
+			board.setCardFiles("Players.txt", "Weapons.txt");		
+			// Initialize will load BOTH config files 
 			board.initialize();
 		}
+		
+		
 	
 	//Testing spaces that are inside rooms to check for empty sets
 	//Spaces are green on the spread sheet
@@ -153,11 +157,13 @@ public class OurAdjTargetTests {
 				// two steps from a room two steps away
 				board.calcTargets(13, 10, 2);
 				Set<BoardCell> targets= board.getTargets();
+				board.clearTargets();
 				assertTrue(targets.contains(board.getCellAt(14, 9)));
 				
 				//Test entering a door when steps are greater than distance to room
 				board.calcTargets(8, 7, 8);
 				targets= board.getTargets();
+				board.clearTargets();
 				assertTrue(targets.contains(board.getCellAt(12, 6)));
 				
 				
@@ -172,12 +178,14 @@ public class OurAdjTargetTests {
 				// One step from room
 				board.calcTargets(13, 14, 1);
 				Set<BoardCell> targets= board.getTargets();
+				board.clearTargets();
 				assertEquals(1, targets.size());
 				assertTrue(targets.contains(board.getCellAt(12, 14)));
 
 				// Take two steps
 				board.calcTargets(13, 14, 2);
 				targets= board.getTargets();
+				board.clearTargets();
 				assertEquals(3, targets.size());
 				assertTrue(targets.contains(board.getCellAt(11, 14)));
 				assertTrue(targets.contains(board.getCellAt(12, 13)));
@@ -193,12 +201,14 @@ public class OurAdjTargetTests {
 				//Test one step and check for the right space
 				board.calcTargets(0, 7, 1);
 				Set<BoardCell> targets= board.getTargets();
+				board.clearTargets();
 				assertEquals(1, targets.size());
 				assertTrue(targets.contains(board.getCellAt(1, 7)));
 
 				// Test one step near a door with the incorrect direction
 				board.calcTargets(13, 6, 1);
 				targets= board.getTargets();
+				board.clearTargets();
 				assertEquals(3, targets.size());
 				assertTrue(targets.contains(board.getCellAt(14, 6)));
 				assertTrue(targets.contains(board.getCellAt(13, 5)));
@@ -214,6 +224,7 @@ public class OurAdjTargetTests {
 				//Length of 2
 				board.calcTargets(8, 16, 2);
 				Set<BoardCell> targets= board.getTargets();
+				board.clearTargets();
 				assertEquals(4, targets.size());
 				assertTrue(targets.contains(board.getCellAt(6, 16)));
 				assertTrue(targets.contains(board.getCellAt(10, 16)));
@@ -222,6 +233,7 @@ public class OurAdjTargetTests {
 				//Length of 2
 				board.calcTargets(15, 15, 2);
 				targets= board.getTargets();
+				board.clearTargets();
 				assertEquals(4, targets.size());
 				assertTrue(targets.contains(board.getCellAt(13, 15)));
 				assertTrue(targets.contains(board.getCellAt(17, 15)));
@@ -239,6 +251,7 @@ public class OurAdjTargetTests {
 				//Using walkway space that will go near a door with the wrong direction
 				board.calcTargets(8, 16, 2);
 				Set<BoardCell> targets= board.getTargets();
+				board.clearTargets();
 				assertEquals(4, targets.size());
 				assertTrue(targets.contains(board.getCellAt(6, 16)));
 				assertTrue(targets.contains(board.getCellAt(10, 16)));
@@ -255,6 +268,7 @@ public class OurAdjTargetTests {
 				//Using random walkway space
 				board.calcTargets(5, 18, 3);
 				Set<BoardCell> targets= board.getTargets();
+				board.clearTargets();
 				assertEquals(10, targets.size());
 				assertTrue(targets.contains(board.getCellAt(5, 21)));
 				assertTrue(targets.contains(board.getCellAt(6, 20)));
