@@ -412,8 +412,12 @@ public class Board {
 	}
 	
 	public boolean accusationCompare(String name, String room, String weapon) {
-		return false;
-		
+		if (name == this.solution.person && room == this.solution.room && weapon == this.solution.weapon) {
+			return true;
+			
+		} else {
+			return false;
+		}
 	}
 
 	//Gets target set
