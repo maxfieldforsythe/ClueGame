@@ -141,4 +141,26 @@ public class gameActionTests {
 		
 
 	}
+	
+	//Tests the function to compare accusation to the solution
+	@Test
+	public void accusationTest() {
+		//Initialize solution with known value
+		board.getSolution().person = "Magic Mouse";
+		board.getSolution().room = "Kitchen";
+		board.getSolution().weapon = "Rusty Spoon";
+		
+		//Test with all values we know are correct
+		assertTrue(board.accusationCompare("Magic Mouse", "Kitchen", "Rusty Spoon"));
+		
+		//Test with incorrect name
+		assertFalse(board.accusationCompare("Carol", "Kitchen", "Rusty Spoon"));
+		
+		//Test with incorrect room
+		assertFalse(board.accusationCompare("Magic Mouse", "Library", "Rusty Spoon"));
+		
+		//Test with incorrect weapon
+		assertFalse(board.accusationCompare("Magic Mouse", "Kitchen", "Blow Torch"));
+		
+	}
 }

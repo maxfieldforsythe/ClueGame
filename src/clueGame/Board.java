@@ -37,6 +37,7 @@ public class Board {
 	private ArrayList<String> weaponList;
 	private ArrayList<Character> legendKeys;
 	private Set<Card> cardDeck;
+	private Solution solution = new Solution();
 	
 	public Board() {
 		
@@ -61,7 +62,6 @@ public class Board {
 		this.calcAdjacencies();
 		targets = new HashSet<BoardCell>();
 		visited = new HashSet<BoardCell>();
-
 	}
 	
 
@@ -378,6 +378,43 @@ public class Board {
 		
 		
 	}
+	
+	public void makeSolution() {
+		setSolution(new Solution());
+		
+		Card card1 = null;
+		Card card2 = null;
+		Card card3 = null;
+		
+		
+		for (Card card: cardDeck) {
+			if (card.getType() == CardType.PERSON ) {
+				if (getSolution().person == null) {
+					getSolution().person = card.getName();
+					card1 = card;
+				}
+			} else if (card.getType() == CardType.ROOM) {
+				if (getSolution().room == null) {
+					getSolution().room = card.getName();
+					card2 = card;
+				}
+			} else if (card.getType() == CardType.WEAPON) {
+				if (getSolution().weapon == null) {
+					getSolution().weapon = card.getName();
+					card3 = card;
+				}
+			}
+		}
+		cardDeck.remove(card1);
+		cardDeck.remove(card2);
+		cardDeck.remove(card3);
+		
+	}
+	
+	public boolean accusationCompare(String name, String room, String weapon) {
+		return false;
+		
+	}
 
 	//Gets target set
 	public static Set<BoardCell> getTargets() {
@@ -469,5 +506,13 @@ public class Board {
 	public void clearTargets() {
 		targets = new HashSet<BoardCell>();
 		visited = new HashSet<BoardCell>();
+	}
+
+	public Solution getSolution() {
+		return solution;
+	}
+
+	public void setSolution(Solution solution) {
+		this.solution = solution;
 	}
 }

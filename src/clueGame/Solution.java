@@ -7,7 +7,9 @@ public class Solution {
 	public String weapon;
 	
 	public Solution() {
-		
+		this.person = null;
+		this.room = null;
+		this.weapon = null;
 	}
 
 }
