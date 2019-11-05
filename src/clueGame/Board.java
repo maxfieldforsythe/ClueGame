@@ -357,6 +357,7 @@ public class Board {
 	//Recursive function to calculate the targets at a given path length
 	public void calcTargets(int row, int column, int pathLength) {
 	
+		
 		for (BoardCell cell : adjMatrix.get(this.getCellAt(row, column))) {
 			if (visited.contains(cell)) {
 				continue;

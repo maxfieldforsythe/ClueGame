@@ -73,5 +73,64 @@ public class gameActionTests {
 		assertTrue(loc_7_7);
 		
 	}
+	
+	//Tests that if the room is a possible target, the computer player will select it as long as it was not the last visited
+	@Test 
+	public void selectRoom() {
+		Player compPlayer = new ComputerPlayer();
+		boolean passed = true;
+		//Tests that the door is chosen in 3 different scenarios every time for 100 trials
+		for (int i = 0; i < 100; i++) {
+		//Tests that the door is chosen for a location 2 spaces away with a 2 roll
+		board.calcTargets(17, 6, 2);
+		if (compPlayer.pickLocation(board.getTargets()) != board.getCellAt(17, 4)) {
+			passed = false;
+		}
+		//Tests that the door is chosen for a location 2 spaces away and a 3 roll
+		board.calcTargets(17, 6, 3);
+		if (compPlayer.pickLocation(board.getTargets()) != board.getCellAt(17, 4)) {
+			passed = false;
+		}
+		//Tests for a roll of 6 when 6 spaces from a door
+		board.calcTargets(13, 6, 6);
+		if (compPlayer.pickLocation(board.getTargets()) != board.getCellAt(17, 4)) {
+			passed = false;
+		}
+		}
+		assertEquals(passed, true);
+		
+	}
+	
+	//Tests the random selection if the player is starting in a room. This includes the room itself
+	@Test 
+	public void selectNotRoom() {
+		Player compPlayer = new ComputerPlayer();
 
+		board.calcTargets(14, 9, 2);
+	
+		boolean loc_12_9 = false;
+		boolean loc_13_8 = false;
+		boolean loc_13_10 = false;
+		boolean loc_14_9 = false;
+		
+		for (int i=0; i<100; i++) {
+			BoardCell selected = compPlayer.pickLocation(board.getTargets());
+			if (selected == board.getCellAt(12, 9)) {
+				loc_12_9 = true;
+			} else if (selected == board.getCellAt(13, 8)) {
+				loc_13_8 = true;
+			} else if (selected == board.getCellAt(13, 10)) {
+				loc_13_10 = true;
+			} else if (selected == board.getCellAt(14, 9)) {
+				loc_14_9 = true;
+			}
+		}
+		
+		assertTrue(loc_12_9);
+		assertTrue(loc_13_8);
+		assertTrue(loc_13_10);
+		assertTrue(loc_14_9);
+		
+
+	}
 }
