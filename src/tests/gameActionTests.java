@@ -37,6 +37,8 @@ public class gameActionTests {
 		//Tests the random target selection when no doors are around
 		
 		Player compPlayer = new ComputerPlayer();
+		
+		board.clearTargets();
 
 		board.calcTargets(6, 6, 2);
 		
@@ -82,18 +84,21 @@ public class gameActionTests {
 		//Tests that the door is chosen in 3 different scenarios every time for 100 trials
 		for (int i = 0; i < 100; i++) {
 		//Tests that the door is chosen for a location 2 spaces away with a 2 roll
+		board.clearTargets();
 		board.calcTargets(17, 6, 2);
 		if (compPlayer.pickLocation(board.getTargets()) != board.getCellAt(17, 4)) {
 			passed = false;
 		}
 		//Tests that the door is chosen for a location 2 spaces away and a 3 roll
+		board.clearTargets();
 		board.calcTargets(17, 6, 3);
 		if (compPlayer.pickLocation(board.getTargets()) != board.getCellAt(17, 4)) {
 			passed = false;
 		}
-		//Tests for a roll of 6 when 6 spaces from a door
+		//Tests for a roll of 6 when 6 spaces from a door. 3 possible doorways so not testing for any specifics
+		board.clearTargets();
 		board.calcTargets(13, 6, 6);
-		if (compPlayer.pickLocation(board.getTargets()) != board.getCellAt(17, 4)) {
+		if (!compPlayer.pickLocation(board.getTargets()).isDoorway()) {
 			passed = false;
 		}
 		}
@@ -103,8 +108,11 @@ public class gameActionTests {
 	
 	//Tests the random selection if the player is starting in a room. This includes the room itself
 	@Test 
-	public void selectNotRoom() {
+	public void selectInRoom() {
 		Player compPlayer = new ComputerPlayer();
+		compPlayer.setColumn(9);
+		compPlayer.setRow(14);
+		board.clearTargets();
 
 		board.calcTargets(14, 9, 2);
 	

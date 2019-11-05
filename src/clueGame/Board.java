@@ -23,10 +23,10 @@ public class Board {
 	public static final int MAX_BOARD_SIZE = 50;
 	private int numRows;
 	private int numColumns;
-	private BoardCell [][] board;
+	private static BoardCell [][] board;
 	private Map<Character, String> legend;
 	private Map<BoardCell, Set<BoardCell>> adjMatrix;
-	private Set<BoardCell> targets;
+	private static Set<BoardCell> targets;
 	private Set<BoardCell> visited;
 	private String boardConfigFile;
 	private String roomConfigFile;
@@ -375,10 +375,12 @@ public class Board {
 			}
 			visited.remove(cell);
 		}	
+		
+		
 	}
 
 	//Gets target set
-	public Set<BoardCell> getTargets() {
+	public static Set<BoardCell> getTargets() {
 		Set<BoardCell> temp = new HashSet<>();
 		temp = targets;
 		
@@ -397,7 +399,7 @@ public class Board {
 		return this.numColumns;
 	}
 
-	public BoardCell getCellAt(int i, int j) {
+	public static BoardCell getCellAt(int i, int j) {
 		return board[i][j];
 	}
 
