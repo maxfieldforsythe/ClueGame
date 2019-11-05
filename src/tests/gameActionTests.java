@@ -176,8 +176,6 @@ public class gameActionTests {
 		
 		
 		
-		
-		
 		player.addSeenCard(board.getCard("Bazooka", CardType.WEAPON));
 		player.addSeenCard(board.getCard("Butter Knife", CardType.WEAPON));
 		player.addSeenCard(board.getCard("Fly Swatter", CardType.WEAPON));
@@ -265,6 +263,7 @@ public class gameActionTests {
 				isRabidDog = true;
 				break;
 			}
+		}
 			
 			assertTrue(isBazooka);
 			assertTrue(isButterKnife);
@@ -280,6 +279,6 @@ public class gameActionTests {
 			assertTrue(isSmallChild);
 			assertTrue(isRabidDog);
 			
-		}
+		
 	}
 }

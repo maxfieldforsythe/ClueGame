@@ -55,11 +55,86 @@ public class ComputerPlayer extends Player{
 		seenCards.add(card);
 	}
 	public Solution makeSuggestion (Set<Card> cardDeck) {
-		Solution suggestion = new Solution();
 		
-		suggestion.room = 
-		Set<Card> availableCards = new ;
-		return null;
+		Solution suggestion = new Solution();
+		Set<Card> peopleCards = new HashSet<>();
+		Set<Card> weaponCards = new HashSet<>();
+		
+		
+		char roomInitial = Board.getCellAt(this.getRow(), this.getColumn()).getInitial();
+		switch(roomInitial) {
+		case('C'):
+			suggestion.room = "Common Room";
+			break;
+		case('K'):
+			suggestion.room = "Kitchen";
+			break;
+			
+		case('B'):
+			suggestion.room = "Bar";
+			break;
+		case('G'):
+			suggestion.room = "Gym";
+			break;
+		case('R'):
+			suggestion.room = "Reading Room";
+			break;
+		case('U'):
+			suggestion.room = "Studio";
+			break;
+		case('H'):
+			suggestion.room = "Hall";
+			break;
+		case('T'):
+			suggestion.room = "TV Room";
+			break;
+		case('D'):
+			suggestion.room = "Dining Room";
+			break;
+			
+		
+		}
+		
+		for (Card card : cardDeck) {
+			if (!seenCards.contains(card)) {
+				
+				
+				if(card.getType() == CardType.WEAPON) {
+					weaponCards.add(card);
+				}
+				
+				else if(card.getType() == CardType.PERSON) {
+					peopleCards.add(card);
+				}
+			}
+		}
+		
+		int size = peopleCards.size();
+		int rand = new Random().nextInt(size);
+		int i = 0;
+		for(Card card : peopleCards )
+		{
+		    if (i == rand) {
+		    	suggestion.person = card.getName();
+		    }
+		        ;
+		    i++;
+		}
+		size = weaponCards.size();
+		rand = new Random().nextInt(size);
+		i = 0;
+		for(Card card : weaponCards )
+		{
+		    if (i == rand) {
+		    	suggestion.weapon = card.getName();
+		    }
+		        
+		    i++;
+		}
+		
+		 
+				
+		return suggestion;
 	}
 
 	

@@ -81,6 +81,7 @@ public class Board {
 		    String line = scanner.nextLine();
 		    String[] roomConfigArray = line.split(", ", -2);
 		    Character initialOfRoom = roomConfigArray[0].charAt(0);
+		    String roomName = roomConfigArray[0];
 		    legendKeys.add(initialOfRoom);
 		    
 		    //throws exception if it is the wrong type
