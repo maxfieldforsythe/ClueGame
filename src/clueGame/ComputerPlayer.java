@@ -59,6 +59,7 @@ public class ComputerPlayer extends Player{
 		
 		suggestion.room = 
 		Set<Card> availableCards = new ;
+		return null;
 	}
 
 	
