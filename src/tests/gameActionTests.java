@@ -9,7 +9,9 @@ import clueGame.Board;
 import clueGame.ComputerPlayer;
 import clueGame.HumanPlayer;
 import clueGame.Player;
+import clueGame.Solution;
 import clueGame.BoardCell;
+import clueGame.CardType;
 
 public class gameActionTests {
 
@@ -162,5 +164,122 @@ public class gameActionTests {
 		//Test with incorrect weapon
 		assertFalse(board.accusationCompare("Magic Mouse", "Kitchen", "Blow Torch"));
 		
+	}
+	
+	@Test
+	public void createSuggestion() {
+		ComputerPlayer player = new ComputerPlayer();
+		
+		
+		player.setRow(12);
+		player.setColumn(6);
+		
+		
+		
+		
+		
+		player.addSeenCard(board.getCard("Bazooka", CardType.WEAPON));
+		player.addSeenCard(board.getCard("Butter Knife", CardType.WEAPON));
+		player.addSeenCard(board.getCard("Fly Swatter", CardType.WEAPON));
+		player.addSeenCard(board.getCard("Broken Bottle", CardType.WEAPON));
+		player.addSeenCard(board.getCard("Blow Torch", CardType.WEAPON));
+		
+		player.addSeenCard(board.getCard("Magic Mouse", CardType.PERSON));
+		player.addSeenCard(board.getCard("Sgt Pepper", CardType.PERSON));
+		player.addSeenCard(board.getCard("The President", CardType.PERSON));
+		player.addSeenCard(board.getCard("Carol", CardType.PERSON));
+		player.addSeenCard(board.getCard("Small Child", CardType.PERSON));
+		
+		Solution suggestion = player.makeSuggestion(board.getDeckOfCards());
+		//testing for correct room getting location
+		assertEquals("Kitchen", suggestion.room);
+		//testing for correct person when only one remains
+		assertEquals("Rabid Dog",suggestion.person);
+		//testing for correct weapon when only one remains
+		assertEquals("Rusty Spoon", suggestion.weapon);
+		
+	}
+	
+	@Test
+	public void testCreateSuggestionRand() {
+		ComputerPlayer player = new ComputerPlayer();
+		
+		player.setRow(16);
+		player.setColumn(19);
+		
+		Solution suggestion = player.makeSuggestion(board.getDeckOfCards());
+		
+		boolean isBazooka = false;
+		boolean isButterKnife = false;
+		boolean isFlySwatter = false;
+		boolean isBrokenBottle = false;
+		boolean isBlowTorch = false;
+		boolean isRustySpoon = false;
+		
+		boolean isMagicMouse = false;
+		boolean isSgtPepper= false;
+		boolean isThePresident = false;
+		boolean isCarol = false;
+		boolean isSmallChild = false;
+		boolean isRabidDog = false;
+		
+		for (int i = 0; i < 100; i++) {
+			suggestion = player.makeSuggestion(board.getDeckOfCards());
+			switch(suggestion.weapon){
+			case("Bazooka"):
+				isBazooka = true;
+				break;
+			case("Butter Knife"):
+				isButterKnife = true;
+				break;
+			case("Fly Swatter"):
+				isFlySwatter = true;
+				break;
+			case("Broken Bottle"):
+				isBrokenBottle = true;
+				break;
+			case("Blow Torch"):
+				isBlowTorch = true;
+				break;
+			case("Rusty Spoon"):
+				isRustySpoon = true;
+				break;
+			}
+			switch(suggestion.person){
+			case("Magic Mouse"):
+				isMagicMouse = true;
+				break;
+			case("Sgt Pepper"):
+				isSgtPepper = true;
+				break;
+			case("The President"):
+				isThePresident = true;
+				break;
+			case("Carol"):
+				isCarol = true;
+				break;
+			case("Small Child"):
+				isSmallChild = true;
+				break;
+			case("Rabid Dog"):
+				isRabidDog = true;
+				break;
+			}
+			
+			assertTrue(isBazooka);
+			assertTrue(isButterKnife);
+			assertTrue(isFlySwatter);
+			assertTrue(isBrokenBottle);
+			assertTrue(isBlowTorch);
+			assertTrue(isRustySpoon);
+			
+			assertTrue(isMagicMouse);
+			assertTrue(isSgtPepper);
+			assertTrue(isThePresident);
+			assertTrue(isCarol);
+			assertTrue(isSmallChild);
+			assertTrue(isRabidDog);
+			
+		}
 	}
 }

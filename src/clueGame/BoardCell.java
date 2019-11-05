@@ -8,6 +8,7 @@ public class BoardCell {
 	private int row;
 	private int column;
 	private char initial;
+	private String roomName;
 	private boolean door;
 	private DoorDirection direction;
 	private boolean room;

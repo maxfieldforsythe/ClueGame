@@ -6,7 +6,7 @@ import java.util.Random;
 import java.util.Set;
 
 public class ComputerPlayer extends Player{
-
+	private Set<Card> seenCards = new HashSet<>();
 	public ComputerPlayer(){
 		super();
 	}
@@ -51,8 +51,14 @@ public class ComputerPlayer extends Player{
 	public void makeAccusation() {
 		
 	}
-	public void createSuggestion() {
+	public void addSeenCard(Card card) {
+		seenCards.add(card);
+	}
+	public Solution makeSuggestion (Set<Card> cardDeck) {
+		Solution suggestion = new Solution();
 		
+		suggestion.room = 
+		Set<Card> availableCards = new ;
 	}
 
 	
