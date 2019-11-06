@@ -337,6 +337,54 @@ public class gameActionTests {
 		
 		//Tests for each player the disprove function to check for null return
 		
+}
+	@Test
+	public void disproveSuggestion() {
+		
+		//creates new player
+		ComputerPlayer player = new ComputerPlayer();
+		//creates suggestion
+		Solution suggestion = new Solution();
+		suggestion.person = "Carol";
+		suggestion.room = "Kitchen";
+		suggestion.weapon = "Butter Knife"; 
+		//adds card that is in suggestion so that player can disprove
+		Card card = player.disproveSuggestion(suggestion);
+		
+		assertEquals(card, null);
+		
+		player.addCard(board.getCard("Carol", CardType.PERSON));
+		
+		card = player.disproveSuggestion(suggestion);
+		//this method should return Carol
+		assertEquals(card, board.getCard("Carol", CardType.PERSON));
+		
+		player.addCard(board.getCard("Kitchen", CardType.ROOM));
+		player.addCard(board.getCard("Butter Knife", CardType.WEAPON));
+		
+		boolean suggestCarol = false;
+		boolean suggestKitchen = false;
+		boolean suggestButterKnife = false;
+		
+		for (int i = 0; i < 20; i ++) {
+			card = player.disproveSuggestion(suggestion);
+			if (card.getName().contentEquals("Carol")) {
+				suggestCarol = true;
+			}
+			else if(card.getName().contentEquals("Butter Knife")) {
+				suggestButterKnife = true;
+			}
+			else if (card.getName().contentEquals("Kitchen")) {
+				suggestKitchen = true;
+			}
+			
+		}
+		
+		assertTrue(suggestButterKnife);
+		assertTrue(suggestCarol);
+		assertTrue(suggestKitchen);
+	
+
 		
 	}
 	
