@@ -421,9 +421,32 @@ public class Board {
 	}
 	
 	public Card querySuggestions(ArrayList<Player> players, Solution suggestion) {
+		int size = players.size();
+		int index = 0;
 		
-		Card placehold = new Card("", CardType.WEAPON);
-		return placehold;
+		for (Player player: players) {
+			if (player.getSuggestion() == suggestion) {
+				break;
+			}
+			index++;
+		}
+		
+		for (int i = index+1; i < size; i++) {
+			
+			
+			Card disproved = players.get(i).disproveSuggestion(suggestion);
+			if (disproved != null) {
+				return disproved;
+			}
+			if (i == size -1) {
+				i = -1;
+			}
+			if (i == index-1) {
+				return null;
+			}
+			
+		}
+		return null;
 		
 	}
 
