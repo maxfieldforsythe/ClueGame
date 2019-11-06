@@ -419,6 +419,13 @@ public class Board {
 			return false;
 		}
 	}
+	
+	public Card querySuggestions(ArrayList<Player> players, Solution suggestion) {
+		
+		Card placehold = new Card("", CardType.WEAPON);
+		return placehold;
+		
+	}
 
 	//Gets target set
 	public static Set<BoardCell> getTargets() {

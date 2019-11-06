@@ -304,9 +304,9 @@ public class gameActionTests {
 		
 	}
 	
-	//Tests when none of the players can disprove the suggestion. Should return null
+	//Tests for handling suggestions
 	@Test
-	public void noneCanProve() {
+	public void handleSuggestion() {
 		//Create a test solution
 		Solution solution = new Solution("Small Child", "Fly Swatter", "Dining Room");
 
@@ -318,6 +318,7 @@ public class gameActionTests {
 		Player carol = new ComputerPlayer();
 		carol.setName("Carol");
 		Player dog = new ComputerPlayer();
+		dog.setName("Rabid Dog");
 		
 		mouse.addCard(weapon1);
 		mouse.addCard(room1);
@@ -329,13 +330,57 @@ public class gameActionTests {
 		carol.addCard(room3);
 		carol.addCard(person3);
 		
+		dog.setSuggestion(solution);
+		
 		ArrayList<Player> playerList = new ArrayList<>();
 		playerList.add(dog);
 		playerList.add(mouse);
 		playerList.add(pres);
 		playerList.add(carol);
 		
-		//Tests for each player the disprove function to check for null return
+		//Tests for each player the disprove function to check for null when none have a solution
+		
+		assertEquals(board.querySuggestions(playerList, dog.getSuggestion()),null);
+		
+		
+		//Add matching cards for the accuser and  then test for null
+		Card match = new Card("Small Child", CardType.PERSON);
+		dog.addCard(match);
+		assertEquals(board.querySuggestions(playerList, dog.getSuggestion()),null);
+		
+		//Tests that the humam player will return a card when they are the only one with a match
+		Card humanMatch = new Card("Fly Swatter", CardType.WEAPON);
+		pres.addCard(humanMatch);
+		assertEquals(board.querySuggestions(playerList, dog.getSuggestion()), humanMatch);
+		
+		//Test when human is the accuser and is the only one that can disprove
+		pres.setSuggestion(solution);
+		dog.setCards(new ArrayList<Card>());
+		dog.setSuggestion(new Solution());
+		assertEquals(board.querySuggestions(playerList, pres.getSuggestion()), null);
+		
+		//Tests when next two players have a match to see if the next one in line is the one to return
+		//Human player is next to have their turn in the array so it should always return the humanMatch card that the human has in their deck
+		pres.setSuggestion(new Solution());
+		dog.setSuggestion(solution);
+		Card humanMatch2 = new Card("Dining Room", CardType.ROOM);
+		carol.addCard(humanMatch2);
+		
+		
+		assertEquals(board.querySuggestions(playerList, dog.getSuggestion()), humanMatch);
+		
+		
+		//Tests the same as before except the computer player before the human player has the match instead. 
+		//Checks to see if the comp is chosen first
+		
+		carol.setCards(new ArrayList<Card>());
+		mouse.addCard(humanMatch2);
+	
+		assertEquals(board.querySuggestions(playerList, dog.getSuggestion()), humanMatch2);
+			
+		
+		
+
 		
 }
 	@Test
@@ -350,13 +395,13 @@ public class gameActionTests {
 		suggestion.weapon = "Butter Knife"; 
 		//adds card that is in suggestion so that player can disprove
 		Card card = player.disproveSuggestion(suggestion);
-		
+		//null when player has no matching cards
 		assertEquals(card, null);
 		
 		player.addCard(board.getCard("Carol", CardType.PERSON));
 		
 		card = player.disproveSuggestion(suggestion);
-		//this method should return Carol
+		//this method should return Carol. Test with one matching card
 		assertEquals(card, board.getCard("Carol", CardType.PERSON));
 		
 		player.addCard(board.getCard("Kitchen", CardType.ROOM));
@@ -365,7 +410,7 @@ public class gameActionTests {
 		boolean suggestCarol = false;
 		boolean suggestKitchen = false;
 		boolean suggestButterKnife = false;
-		
+		//Test random selection if more than one card
 		for (int i = 0; i < 20; i ++) {
 			card = player.disproveSuggestion(suggestion);
 			if (card.getName().contentEquals("Carol")) {

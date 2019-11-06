@@ -11,6 +11,7 @@ public abstract class Player {
 	private int column;
 	private Color color;
 	private ArrayList<Card> myCards;
+	private Solution suggestion = new Solution();
 	
 	public Player() {
 		myCards = new ArrayList<>();
@@ -82,6 +83,15 @@ public abstract class Player {
 	public void setColor(Color convertColor) {
 		this.color = convertColor;
 		
+	}
+	public Solution getSuggestion() {
+		return suggestion;
+	}
+	public void setSuggestion(Solution suggestion) {
+		this.suggestion = suggestion;
+	}
+	public void setCards(ArrayList<Card> cards) {
+		this.myCards =  cards;
 	}
 	
 	
