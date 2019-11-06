@@ -32,6 +32,8 @@ public class OurTests {
 		board = Board.getInstance();
 		// set the file names to use my config files
 		board.setConfigFiles("GameBoard.csv", "Rooms.txt");		
+		// set the file names to use my config files
+		board.setCardFiles("Players.txt", "Weapons.txt");
 		// Initialize will load BOTH config files 
 		board.initialize();
 	}
@@ -43,7 +45,7 @@ public class OurTests {
 		assertEquals(LEGEND_SIZE, legend.size());
 		assertEquals("Kitchen", legend.get('K'));
 		assertEquals("Walkway", legend.get('W'));
-		assertEquals("Dining room", legend.get('D'));
+		assertEquals("Dining Room", legend.get('D'));
 		assertEquals("TV Room", legend.get('T'));
 	}
 	
