@@ -381,7 +381,6 @@ public class Board {
 	}
 	
 	public void makeSolution() {
-		setSolution(new Solution());
 		
 		Card card1 = null;
 		Card card2 = null;

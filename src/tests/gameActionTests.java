@@ -2,6 +2,8 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -11,6 +13,7 @@ import clueGame.HumanPlayer;
 import clueGame.Player;
 import clueGame.Solution;
 import clueGame.BoardCell;
+import clueGame.Card;
 import clueGame.CardType;
 
 public class gameActionTests {
@@ -20,6 +23,16 @@ public class gameActionTests {
 	// We make the Board static because we can load it one time and 
 	// then do all the tests. 
 	private static Board board;
+	private static Card weapon1;
+	private static Card weapon2;
+	private static Card weapon3;
+	private static Card person1;
+	private static Card person2;
+	private static Card person3;
+	private static Card room1;
+	private static Card room2;
+	private static Card room3;
+	
 	@BeforeClass
 	public static void setUp() {
 		// Board is singleton, get the only instance
@@ -29,8 +42,17 @@ public class gameActionTests {
 		// set the file names to use my config files
 		board.setCardFiles("Players.txt", "Weapons.txt");		
 		// Initialize will load BOTH config files 
-		board.initialize();
+		board.initialize();		
 		
+		weapon1 = new Card("Bazooka", CardType.WEAPON);
+		weapon2 = new Card("Butter Knife", CardType.WEAPON);
+		weapon3 = new Card("Blow Torch", CardType.WEAPON);
+		person1 = new Card("Magic Mouse", CardType.PERSON);
+		person2 = new Card("Carol", CardType.PERSON);
+		person3 = new Card("Rabid Dog", CardType.PERSON);
+		room1 = new Card("TV Room", CardType.ROOM);
+		room2 = new Card("Gym", CardType.ROOM);
+		room3 = new Card("Kitchen", CardType.ROOM);
 
 	}
 	
@@ -281,4 +303,41 @@ public class gameActionTests {
 			
 		
 	}
+	
+	//Tests when none of the players can disprove the suggestion. Should return null
+	@Test
+	public void noneCanProve() {
+		//Create a test solution
+		Solution solution = new Solution("Small Child", "Fly Swatter", "Dining Room");
+
+		//Setting up 3 players with 3 cards to put in an array similar to the boards player list
+		Player mouse = new ComputerPlayer();
+		mouse.setName("Magic Mouse");
+		Player pres = new HumanPlayer();
+		pres.setName("The President");
+		Player carol = new ComputerPlayer();
+		carol.setName("Carol");
+		Player dog = new ComputerPlayer();
+		
+		mouse.addCard(weapon1);
+		mouse.addCard(room1);
+		mouse.addCard(person1);
+		pres.addCard(weapon2);
+		pres.addCard(room2);
+		pres.addCard(person2);
+		carol.addCard(weapon3);
+		carol.addCard(room3);
+		carol.addCard(person3);
+		
+		ArrayList<Player> playerList = new ArrayList<>();
+		playerList.add(dog);
+		playerList.add(mouse);
+		playerList.add(pres);
+		playerList.add(carol);
+		
+		//Tests for each player the disprove function to check for null return
+		
+		
+	}
+	
 }
