@@ -313,13 +313,13 @@ public class gameActionTests {
 		
 		for (int i = 0; i < 20; i ++) {
 			card = player.disproveSuggestion(suggestion);
-			if (card.getName() == "Carol") {
+			if (card.getName().contentEquals("Carol")) {
 				suggestCarol = true;
 			}
-			else if(card.getName() == "Butter Knife") {
+			else if(card.getName().contentEquals("Butter Knife")) {
 				suggestButterKnife = true;
 			}
-			else if (card.getName() == "Kitchen") {
+			else if (card.getName().contentEquals("Kitchen")) {
 				suggestKitchen = true;
 			}
 			
@@ -328,17 +328,8 @@ public class gameActionTests {
 		assertTrue(suggestButterKnife);
 		assertTrue(suggestCarol);
 		assertTrue(suggestKitchen);
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+	
 		
 	}
+	
 }
