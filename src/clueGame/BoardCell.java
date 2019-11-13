@@ -83,7 +83,7 @@ public class BoardCell extends JPanel{
 		
 		super.paintComponent(g);
 		g.setColor(Color.BLACK);
-		g.drawRect(this.row * 31, this.column * 31, 31, 31);
+		g.drawRect(this.row * 25, this.column * 25, 25, 25);
 		
 	}
 

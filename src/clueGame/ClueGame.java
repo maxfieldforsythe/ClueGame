@@ -90,15 +90,16 @@ public class ClueGame extends JPanel{
 		
 		// Create a JFrame with all the normal functionality
 		JFrame frame = new JFrame();
+		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Clue GUI");
-		frame.setSize(800, 800);
+		frame.setSize(800, 900);
 		// Create the JPanel and add it to the JFrame
 		ClueGame clueGame = new ClueGame();
 		
 		// if you change the order of the frame.add() statements, causes it to render differently
-		frame.add(clueGame);
-		frame.add(board1);
+		frame.add(clueGame, BorderLayout.SOUTH);
+		frame.add(board1, BorderLayout.CENTER);
 		// Now let's view it
 		frame.setVisible(true);
 		}
