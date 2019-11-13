@@ -4,7 +4,12 @@
  */
 package clueGame;
 
-public class BoardCell {
+import java.awt.Color;
+import java.awt.Graphics;
+
+import javax.swing.JPanel;
+
+public class BoardCell extends JPanel{
 	private int row;
 	private int column;
 	private char initial;
@@ -74,5 +79,12 @@ public class BoardCell {
 		this.column = j;
 	}
 
+	public void drawBox(Graphics g) {
+		
+		super.paintComponent(g);
+		g.setColor(Color.BLACK);
+		g.drawRect(this.row * 31, this.column * 31, 31, 31);
+		
+	}
 
 }

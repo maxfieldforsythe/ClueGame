@@ -13,12 +13,20 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.lang.reflect.Field;
 
 import clueGame.BoardCell;
 
-public class Board {
+public class Board extends JPanel {
 	
 	public static final int MAX_BOARD_SIZE = 50;
 	private int numRows;
@@ -39,6 +47,8 @@ public class Board {
 	private Set<Card> cardDeck;
 	private Solution solution = new Solution();
 	
+	
+	
 	public Board() {
 		
 	}
@@ -46,6 +56,16 @@ public class Board {
 	public static Board getInstance() {
 		return theInstance;
 	}
+	
+	 public void paintComponent(Graphics g) {
+		 super.paintComponent(g);
+		 for (int i = 0; i < board.length; i++) {
+			 for (int j = 0; j < board[i].length; j++) {
+				 board[i][j].drawBox(g);
+			 }
+		 }
+	 }
+	 
 	
 	public void initialize() {
 		//Initialize legend as hash map and load csv and legend files
@@ -549,4 +569,6 @@ public class Board {
 	public void setSolution(Solution solution) {
 		this.solution = solution;
 	}
+	
+
 }
