@@ -83,12 +83,13 @@ public class ClueGame extends JPanel{
 		return panel;
 	}
 	
+	//Creates the file menu
 	private static JMenu createFileMenu() {
 		JMenu menu = new JMenu("File");
 		menu.add(createFileExitItem());
 		return menu;
 	}
-	
+	//Creates the menu item for exit
 	private static JMenuItem createFileExitItem() {
 		JMenuItem item = new JMenuItem("Exit");
 		class MenuItemListener implements ActionListener {
@@ -129,7 +130,7 @@ public class ClueGame extends JPanel{
 		frame.add(clueGame, BorderLayout.SOUTH);
 		frame.add(board1, BorderLayout.CENTER);
 		
-	
+		//Add menu bar to the UI and give it the menu item as an argument
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
 		menuBar.add(createFileMenu());
