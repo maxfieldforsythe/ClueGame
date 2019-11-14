@@ -2,10 +2,15 @@ package clueGame;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
@@ -28,6 +33,7 @@ public class ClueGame extends JPanel{
 		add(panel);
 		panel = createNamePanel();
 		add(panel);
+		
 		}
 	
 	private JPanel createNamePanel() {      
@@ -77,6 +83,28 @@ public class ClueGame extends JPanel{
 		return panel;
 	}
 	
+	private static JMenu createFileMenu() {
+		JMenu menu = new JMenu("File");
+		menu.add(createFileExitItem());
+		return menu;
+	}
+	
+	private static JMenuItem createFileExitItem() {
+		JMenuItem item = new JMenuItem("Exit");
+		class MenuItemListener implements ActionListener {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+				
+			}
+			
+		}
+		item.addActionListener(new MenuItemListener());
+		return item;
+	}
+	
+	
 	public static void main(String[] args) {
 		Board board1 = new Board();
 		board1 = Board.getInstance();
@@ -100,6 +128,12 @@ public class ClueGame extends JPanel{
 		// if you change the order of the frame.add() statements, causes it to render differently
 		frame.add(clueGame, BorderLayout.SOUTH);
 		frame.add(board1, BorderLayout.CENTER);
+		
+	
+		JMenuBar menuBar = new JMenuBar();
+		frame.setJMenuBar(menuBar);
+		menuBar.add(createFileMenu());
+		
 		// Now let's view it
 		frame.setVisible(true);
 		}
