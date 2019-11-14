@@ -82,8 +82,39 @@ public class BoardCell extends JPanel{
 	public void drawBox(Graphics g) {
 		
 		super.paintComponent(g);
-		g.setColor(Color.BLACK);
-		g.drawRect(this.row * 25, this.column * 25, 25, 25);
+		if (this.isRoom()) {
+			g.setColor(Color.LIGHT_GRAY);
+			g.fillRect(this.column * 28, this.row * 28, 28, 28);
+		} else {
+			g.setColor(Color.YELLOW);
+			g.fillRect(this.column * 28, this.row * 28, 28, 28);
+			g.setColor(Color.BLACK);
+			g.drawRect(this.column * 28, this.row * 28, 28, 28);
+		}
+		if (this.isDoorway()) {
+			if (this.getDoorDirection() == DoorDirection.UP) {
+				g.setColor(Color.LIGHT_GRAY);
+				g.fillRect(this.column * 28, this.row * 28, 28, 28);
+				g.setColor(Color.BLUE);
+				g.fillRect(this.column * 28, this.row * 28, 28, 8);
+			} else if (this.getDoorDirection() == DoorDirection.LEFT) {
+				g.setColor(Color.LIGHT_GRAY);
+				g.fillRect(this.column * 28, this.row * 28, 28, 28);
+				g.setColor(Color.BLUE);
+				g.fillRect(this.column * 28, this.row * 28, 8, 28);
+			} else if (this.getDoorDirection() == DoorDirection.DOWN) {
+				g.setColor(Color.LIGHT_GRAY);
+				g.fillRect(this.column * 28, this.row * 28, 28, 28);
+				g.setColor(Color.BLUE);
+				g.fillRect(this.column * 28, this.row * 28 +20, 28, 8);
+			} else if (this.getDoorDirection() == DoorDirection.RIGHT) {
+				g.setColor(Color.LIGHT_GRAY);
+				g.fillRect(this.column * 28, this.row * 28, 28, 28);
+				g.setColor(Color.BLUE);
+				g.fillRect(this.column * 28 +20, this.row * 28, 8, 28);
+			}
+		}
+		
 		
 	}
 

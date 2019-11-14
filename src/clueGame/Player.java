@@ -1,11 +1,14 @@
 package clueGame;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Set;
 
-public abstract class Player {
+import javax.swing.JPanel;
+
+public abstract class Player extends JPanel {
 	private String playerName;
 	private int row;
 	private int column;
@@ -49,6 +52,15 @@ public abstract class Player {
 	
 	
 	public abstract BoardCell pickLocation (Set<BoardCell> targets);
+	
+public void drawPlayer(Graphics g) {
+		
+		super.paintComponent(g);
+		g.setColor(this.color);
+		g.fillOval(this.column * 28 ,this.row *28 , 28 , 28 );
+		g.setColor(color.BLACK);
+		g.drawOval(this.column * 28 ,this.row *28 , 28 , 28 );
+}
 	
 	//*****TEST FUNCTIONS*****
 	public String getName() {

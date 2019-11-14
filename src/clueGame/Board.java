@@ -64,6 +64,11 @@ public class Board extends JPanel {
 				 board[i][j].drawBox(g);
 			 }
 		 }
+		 
+		 for (Player p: playerList) {
+			 p.drawPlayer(g);
+		 }
+		 this.drawRoomName(g);
 	 }
 	 
 	
@@ -518,6 +523,21 @@ public class Board extends JPanel {
 				}
 		return color;
 				}
+	
+	public void drawRoomName(Graphics g) {
+		 
+		 
+		 g.drawString("Kitchen",70 ,280);
+		 g.drawString("Dining Room", 18*28, 18*28);
+		 g.drawString("TV Room", 11*28, 3*28);
+		 g.drawString("Studio", 13*28 + 10, 16*28);
+		 g.drawString("Bar", 19*28, 280);
+		 g.drawString("Hall", 20*28 - 10, 2*28);
+		 g.drawString("Gym", 8*28+15,18*28 );
+		 g.drawString("Common Room", 2*28,2*28);
+		 g.drawString("Reading Room", 28, 18*28);
+		 
+	}
 	
 
 
