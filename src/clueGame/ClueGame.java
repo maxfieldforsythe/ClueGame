@@ -53,7 +53,6 @@ public class ClueGame extends JPanel{
 		response.setEditable(false);
 		diePanel.add(dieLabel);
 		diePanel.add(die);
-		diePanel.setBorder(new TitledBorder (new EtchedBorder(), "Die"));
 		panel.add(diePanel);
 		
 		guessPanel.add(guessLabel);
@@ -112,7 +111,9 @@ public class ClueGame extends JPanel{
 	
 	class ButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent  e) {
+			if (dialog == null) {
 			dialog = new MyDialog();
+			}
 			dialog.setVisible(true);
 		}
 	}
