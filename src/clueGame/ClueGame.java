@@ -24,6 +24,7 @@ public class ClueGame extends JPanel{
 	private JTextField guess;
 	private JTextField response;
 	private JTextField turn;
+	static MyDialog dialog;
 	
 	public ClueGame(){
 		// Create a layout with 2 rows
@@ -87,6 +88,7 @@ public class ClueGame extends JPanel{
 	private static JMenu createFileMenu() {
 		JMenu menu = new JMenu("File");
 		menu.add(createFileExitItem());
+		menu.add(createDialogItem());
 		return menu;
 	}
 	//Creates the menu item for exit
@@ -105,6 +107,19 @@ public class ClueGame extends JPanel{
 		return item;
 	}
 	
+	private static JMenuItem createDialogItem() {
+	JMenuItem item = new JMenuItem("Notes");	
+	
+	class ButtonListener implements ActionListener {
+		public void actionPerformed(ActionEvent  e) {
+			dialog = new MyDialog();
+			dialog.setVisible(true);
+		}
+	}
+	item.addActionListener(new ButtonListener());
+	return item;
+	
+	}
 	
 	public static void main(String[] args) {
 		Board board1 = new Board();
