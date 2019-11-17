@@ -87,6 +87,8 @@ public class Board extends JPanel {
 		this.calcAdjacencies();
 		targets = new HashSet<BoardCell>();
 		visited = new HashSet<BoardCell>();
+		this.makeSolution();
+		this.shuffleAndDealCards();
 	}
 	
 
@@ -433,6 +435,7 @@ public class Board extends JPanel {
 		cardDeck.remove(card1);
 		cardDeck.remove(card2);
 		cardDeck.remove(card3);
+		
 		
 	}
 	

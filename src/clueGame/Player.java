@@ -92,6 +92,9 @@ public void drawPlayer(Graphics g) {
 		this.column = column;
 	}
 	
+	public ArrayList<Card> getMyCards() {
+		return myCards;
+	}
 	public void setColor(Color convertColor) {
 		this.color = convertColor;
 		

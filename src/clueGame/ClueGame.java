@@ -11,7 +11,9 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
@@ -83,6 +85,49 @@ public class ClueGame extends JPanel{
 		return panel;
 	}
 	
+	private static JPanel createCardPanel(Board b) {
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridLayout(3,1));
+		panel.setSize(75, 500);
+		panel.setBorder(new TitledBorder (new EtchedBorder(), "Cards"));
+		
+		JPanel peoplePanel = new JPanel();
+		JPanel roomPanel = new JPanel();
+		JPanel weaponPanel = new JPanel();
+		
+		JTextArea people = new JTextArea(9,9);
+		JTextArea rooms = new JTextArea(9,9);
+		JTextArea weapon = new JTextArea(9,9);
+		
+		for (Card c: b.getPlayer(0).getMyCards()) {
+			if (c.getType() == CardType.PERSON) {
+				people.append(c.getName() + "\n\n");
+			} else if (c.getType() == CardType.ROOM) {
+				rooms.append(c.getName() + "\n\n");
+			} else if (c.getType() == CardType.WEAPON) {
+				weapon.append(c.getName() + "\n\n");
+			}
+		}
+		
+		people.setEditable(false);
+		rooms.setEditable(false);
+		weapon.setEditable(false);
+		
+		peoplePanel.setBorder(new TitledBorder (new EtchedBorder(), "People"));
+		roomPanel.setBorder(new TitledBorder (new EtchedBorder(), "Rooms"));
+		weaponPanel.setBorder(new TitledBorder (new EtchedBorder(), "Weapons"));
+		
+		peoplePanel.add(people);
+		roomPanel.add(rooms);
+		weaponPanel.add(weapon);
+		
+		panel.add(peoplePanel);
+		panel.add(roomPanel);
+		panel.add(weaponPanel);
+		
+		return panel;
+	}
+	
 	//Creates the file menu
 	private static JMenu createFileMenu() {
 		JMenu menu = new JMenu("File");
@@ -145,12 +190,15 @@ public class ClueGame extends JPanel{
 		// if you change the order of the frame.add() statements, causes it to render differently
 		frame.add(clueGame, BorderLayout.SOUTH);
 		frame.add(board1, BorderLayout.CENTER);
+		frame.add(createCardPanel(board1), BorderLayout.EAST);
 		
 		//Add menu bar to the UI and give it the menu item as an argument
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
 		menuBar.add(createFileMenu());
 		
+		JOptionPane splash = new JOptionPane();
+		splash.showMessageDialog(frame, "You are The President, press Next to begin the game", "Welcome to Clue!", JOptionPane.INFORMATION_MESSAGE);
 		// Now let's view it
 		frame.setVisible(true);
 		}

@@ -7,9 +7,9 @@ public class Solution {
 	public String weapon;
 	
 	public Solution() {
-		this.person = "";
-		this.room = "";
-		this.weapon = "";
+		this.person = null;
+		this.room = null;
+		this.weapon = null;
 	}
 
 	public Solution(String person, String weapon, String room) {
