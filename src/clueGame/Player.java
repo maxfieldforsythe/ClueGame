@@ -62,6 +62,9 @@ public void drawPlayer(Graphics g) {
 		g.drawOval(this.column * 28 ,this.row *28 , 28 , 28 );
 }
 	
+public abstract void makeMove();
+
+
 	//*****TEST FUNCTIONS*****
 	public String getName() {
 		return this.playerName;

@@ -1,3 +1,4 @@
+* 66746d0 : Added the cards panel with current human player cards as well as added the splash scren
 * 07fe299 : Got the choices to save inthe notes menu
 * cfeb017 : Added the menu for notes with all attributes. Cannot figure out how to make the selected data save
 * 02610ea : Added some comments

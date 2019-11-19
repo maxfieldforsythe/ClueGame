@@ -136,6 +136,11 @@ public class ComputerPlayer extends Player{
 				
 		return suggestion;
 	}
+	@Override
+	public void makeMove() {
+		// TODO Auto-generated method stub
+		
+	}
 
 	
 }

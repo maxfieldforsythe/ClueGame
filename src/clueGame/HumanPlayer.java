@@ -15,4 +15,10 @@ public class HumanPlayer extends Player{
 		return null;
 	}
 
+	@Override
+	public void makeMove() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

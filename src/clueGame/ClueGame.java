@@ -27,12 +27,15 @@ public class ClueGame extends JPanel{
 	private JTextField response;
 	private JTextField turn;
 	static MyDialog dialog;
+	static Player tempPlayer = null;
+	static Board board1 = new Board();
+	static int counter = 0;
 	
-	public ClueGame(){
+	public ClueGame(Board b){
 		// Create a layout with 2 rows
 		setLayout(new GridLayout(2,1));
 		
-		JPanel panel = createButtonPanel();
+		JPanel panel = createButtonPanel(b);
 		add(panel);
 		panel = createNamePanel();
 		add(panel);
@@ -55,6 +58,7 @@ public class ClueGame extends JPanel{
 		response.setEditable(false);
 		diePanel.add(dieLabel);
 		diePanel.add(die);
+		diePanel.setBorder(new TitledBorder (new EtchedBorder(), "Die"));
 		panel.add(diePanel);
 		
 		guessPanel.add(guessLabel);
@@ -70,7 +74,7 @@ public class ClueGame extends JPanel{
 		}
 	
 	
-	private JPanel createButtonPanel() {
+	private JPanel createButtonPanel(Board b) {
 		JButton next = new JButton("Next Player");
 		JButton accuse = new JButton("Make Accusation");
 		JPanel panel = new JPanel();
@@ -82,9 +86,32 @@ public class ClueGame extends JPanel{
 		panel.add(turn);
 		panel.add(next);
 		panel.add(accuse);
+		
+		next.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			ClueGame.nextPlayer(turn);
+				
+			}
+
+			
+			});
 		return panel;
 	}
 	
+	public static void nextPlayer(JTextField jt) {
+		
+			tempPlayer = board1.getPlayer(counter % board1.getPlayerList().size() );
+			
+			jt.setText(tempPlayer.getName());
+			
+			tempPlayer.makeMove();
+			
+			counter += 1;
+		
+	}
+
 	private static JPanel createCardPanel(Board b) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(3,1));
@@ -168,7 +195,6 @@ public class ClueGame extends JPanel{
 	}
 	
 	public static void main(String[] args) {
-		Board board1 = new Board();
 		board1 = Board.getInstance();
 		// set the file names to use my config files
 		board1.setConfigFiles("GameBoard.csv", "Rooms.txt");	
@@ -185,7 +211,7 @@ public class ClueGame extends JPanel{
 		frame.setTitle("Clue GUI");
 		frame.setSize(800, 800);
 		// Create the JPanel and add it to the JFrame
-		ClueGame clueGame = new ClueGame();
+		ClueGame clueGame = new ClueGame(board1);
 		
 		// if you change the order of the frame.add() statements, causes it to render differently
 		frame.add(clueGame, BorderLayout.SOUTH);
@@ -198,9 +224,10 @@ public class ClueGame extends JPanel{
 		menuBar.add(createFileMenu());
 		
 		JOptionPane splash = new JOptionPane();
-		splash.showMessageDialog(frame, "You are The President, press Next to begin the game", "Welcome to Clue!", JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(frame, "You are The President, press Next to begin the game", "Welcome to Clue!", JOptionPane.INFORMATION_MESSAGE);
 		// Now let's view it
 		frame.setVisible(true);
-		}
+		
+	}
 
 }
