@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -91,7 +92,7 @@ public class ClueGame extends JPanel{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-			ClueGame.nextPlayer(turn);
+			ClueGame.nextPlayer(turn, die);
 				
 			}
 
@@ -100,13 +101,18 @@ public class ClueGame extends JPanel{
 		return panel;
 	}
 	
-	public static void nextPlayer(JTextField jt) {
+	public static void nextPlayer(JTextField jt, JTextField jt2) {
+		
+			board1.setRoll(new Random().nextInt(6));
 		
 			tempPlayer = board1.getPlayer(counter % board1.getPlayerList().size() );
 			
 			jt.setText(tempPlayer.getName());
 			
+			jt2.setText(String.valueOf(board1.getRoll() + 1));
+			
 			tempPlayer.makeMove(board1);
+			
 			
 			counter += 1;
 		

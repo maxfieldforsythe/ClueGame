@@ -138,23 +138,19 @@ public class ComputerPlayer extends Player{
 	}
 	@Override
 	public void makeMove(Board b) {
-		System.out.print(this.getRow());
 		
-		int diceRoll = new Random().nextInt(6);
 		
 		BoardCell bc = new BoardCell();
 		
 		b.clearTargets();
 
-		b.calcTargets(this.getRow(), this.getColumn(), diceRoll + 1);
+		b.calcTargets(this.getRow(), this.getColumn(), b.getRoll() + 1);
 		
 		bc = this.pickLocation(b.getTargets());
 		
 		this.setRow(bc.getRow());
 		
 		this.setColumn(bc.getColumn());
-		
-		System.out.print(this.getRow());
 
 		b.repaint();
 	}

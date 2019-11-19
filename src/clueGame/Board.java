@@ -46,6 +46,7 @@ public class Board extends JPanel {
 	private ArrayList<Character> legendKeys;
 	private Set<Card> cardDeck;
 	private Solution solution = new Solution();
+	private int roll = 0;
 	
 	
 	
@@ -591,6 +592,14 @@ public class Board extends JPanel {
 
 	public void setSolution(Solution solution) {
 		this.solution = solution;
+	}
+
+	public int getRoll() {
+		return roll;
+	}
+
+	public void setRoll(int roll) {
+		this.roll = roll;
 	}
 	
 
