@@ -106,7 +106,7 @@ public class ClueGame extends JPanel{
 			
 			jt.setText(tempPlayer.getName());
 			
-			tempPlayer.makeMove();
+			tempPlayer.makeMove(board1);
 			
 			counter += 1;
 		

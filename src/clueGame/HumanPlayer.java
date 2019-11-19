@@ -16,7 +16,7 @@ public class HumanPlayer extends Player{
 	}
 
 	@Override
-	public void makeMove() {
+	public void makeMove(Board b) {
 		// TODO Auto-generated method stub
 		
 	}

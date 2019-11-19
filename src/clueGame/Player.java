@@ -60,10 +60,16 @@ public void drawPlayer(Graphics g) {
 		g.fillOval(this.column * 28 ,this.row *28 , 28 , 28 );
 		g.setColor(color.BLACK);
 		g.drawOval(this.column * 28 ,this.row *28 , 28 , 28 );
+		
+		
 }
 	
-public abstract void makeMove();
 
+
+public void makeMove(Board b) {
+	// TODO Auto-generated method stub
+	
+}
 
 	//*****TEST FUNCTIONS*****
 	public String getName() {
@@ -111,6 +117,8 @@ public abstract void makeMove();
 	public void setCards(ArrayList<Card> cards) {
 		this.myCards =  cards;
 	}
+
+
 	
 	
 }
