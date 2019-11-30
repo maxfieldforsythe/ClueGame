@@ -1,5 +1,6 @@
 package clueGame;
 
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,6 +20,9 @@ import javax.swing.border.TitledBorder;
 public class MyDialog extends JDialog {
 	private JTextField myName;
 	private JPasswordField password;
+	public JComboBox peopleCombo;
+	public JComboBox roomCombo;
+	public JComboBox weaponCombo;
 
 	public MyDialog() {
 		//Initialize size and layout
@@ -190,6 +194,91 @@ public class MyDialog extends JDialog {
 
 	}
 
-	
+	public MyDialog(Board b, Character c) {
+		//Initialize size and layout
+				setTitle("Make a suggestion");
+				setLayout(new FlowLayout());
+				setSize(500, 200);
+				JPanel peoplePanel = new JPanel();
+				
+				String[] peopleArr = {"????","Magic Mouse", "The President", "Rabid Dog", "Carol", "Sgt Pepper", "Small Child"};
+				peopleCombo = new JComboBox(peopleArr);
+				peopleCombo.setBorder(new TitledBorder (new EtchedBorder(), "Person Guess"));
+				
+				String[] weaponArr = {"????","Bazooka", "Butter Knife", "Fly Swatter", "Broken bottle", "Blow Torch", "Rusty Spoon"};
+				weaponCombo = new JComboBox(weaponArr);
+				weaponCombo.setBorder(new TitledBorder (new EtchedBorder(), "Weapon Guess"));
+				
+				JButton jb = new JButton("Suggest");
+				
+				peoplePanel.add(peopleCombo);
+				peoplePanel.add(weaponCombo);
+				peoplePanel.add(jb);
+				
+				
+				jb.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						String room = null;
+						
+						switch(c) {
+						case('C'):
+							room = "Common Room";
+							break;
+						case('K'):
+							room = "Kitchen";
+							break;
+							
+						case('B'):
+							room = "Bar";
+							break;
+						case('G'):
+							room = "Gym";
+							break;
+						case('R'):
+							room = "Reading Room";
+							break;
+						case('U'):
+							room = "Studio";
+							break;
+						case('H'):
+							room = "Hall";
+							break;
+						case('T'):
+							room = "TV Room";
+							break;
+						case('D'):
+							room = "Dining Room";
+							break;
+						}
+						b.suggestName = String.valueOf(peopleCombo.getSelectedItem());
+						b.suggestRoom = room;
+						b.suggestWeapon = String.valueOf(weaponCombo.getSelectedItem());
+						Solution suggestion = new Solution();
+						suggestion.person = b.suggestName;
+						suggestion.room = room;
+						suggestion.weapon = b.suggestWeapon;
+						ClueGame.guess.setText(b.suggestName + " " + b.suggestRoom + " " + b.suggestWeapon);
+						Card disproven = b.querySuggestions(b.getPlayerList(), suggestion);
+						if (disproven == null) {
+							b.disprove = "No new clue";
+						} else {
+						b.disprove = disproven.getCardName();
+						b.wasGuessed = false;
+						}
+						ClueGame.response.setText(b.disprove);
+						dispose();
+						
+					}
+
+					
+					});
+				
+				
+				
+				add(peoplePanel);
+				
+	}
 
 }

@@ -13,17 +13,21 @@ public abstract class Player extends JPanel {
 	private int row;
 	private int column;
 	private Color color;
-	private ArrayList<Card> myCards;
+	public ArrayList<Card> myCards;
 	private Solution suggestion = new Solution();
+	BoardCell lastRoom;
 	
 	public Player() {
 		myCards = new ArrayList<>();
 	}
 	public Card disproveSuggestion(Solution suggestion) {
+		
+			
 		ArrayList<Card> myCardsInSuggestion = new ArrayList<>();
 		
 		//Loop adds cards that match the suggestion to an array list
 		for(Card card: myCards) {
+			
 			if (card.getName().contentEquals(suggestion.person)) {
 				myCardsInSuggestion.add(card);
 			}
@@ -45,9 +49,14 @@ public abstract class Player extends JPanel {
 			int rand = new Random().nextInt(myCardsInSuggestion.size());
 			return myCardsInSuggestion.get(rand);
 		}
-	};
+	}
+	
 	public void addCard(Card card) {
 		myCards.add(card);
+	}
+	
+	public void makeAccusation(String person, String room, String weapon, Board b) {
+		
 	}
 	
 	
@@ -67,7 +76,7 @@ public void drawPlayer(Graphics g) {
 
 
 public void makeMove(Board b) {
-	// TODO Auto-generated method stub
+
 	
 }
 

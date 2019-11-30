@@ -42,28 +42,31 @@ public class gameSetupTests {
 		//Checks the 1st, 3rd, and last player for correct attributes based on the txt config
 		
 		//First player
-		assertEquals("Magic Mouse", board.getPlayer(0).getName());
-		assertEquals(20, board.getPlayer(0).getRow());
-		assertEquals(6, board.getPlayer(0).getColumn());
-		assertEquals(board.convertColor("yellow"), board.getPlayer(0).getColor());
+		assertEquals("Magic Mouse", board.getPlayer(1).getName());
+		assertEquals(20, board.getPlayer(1).getRow());
+		assertEquals(6, board.getPlayer(1).getColumn());
+		assertEquals(board.convertColor("white"), board.getPlayer(1).getColor());
 		
 		//Third player
-		assertEquals("The President", board.getPlayer(2).getName());
-		assertEquals(15, board.getPlayer(2).getRow());
-		assertEquals(21, board.getPlayer(2).getColumn());
-		assertEquals(board.convertColor("blue"), board.getPlayer(2).getColor());
+		assertEquals("The President", board.getPlayer(0).getName());
+		assertEquals(15, board.getPlayer(0).getRow());
+		assertEquals(21, board.getPlayer(0).getColumn());
+		assertEquals(board.convertColor("blue"), board.getPlayer(0).getColor());
 		
 		//Last player
 		assertEquals("Rabid Dog", board.getPlayer(5).getName());
 		assertEquals(6, board.getPlayer(5).getRow());
 		assertEquals(12, board.getPlayer(5).getColumn());
-		assertEquals(board.convertColor("brown"), board.getPlayer(5).getColor());
+		assertEquals(board.convertColor("orange"), board.getPlayer(5).getColor());
 		
 		
 	}
 	
 	@Test
 	public void deckOfCards() {
+		
+		board.loadCards();
+		
 		Set<Card> deck = board.getDeckOfCards();
 		int numWeapons = 0, numPeople = 0, numRooms = 0;
 		for (Card card : deck) {
@@ -95,7 +98,6 @@ public class gameSetupTests {
 	@Test
 	public void dealCards() {
 		
-		board.shuffleAndDealCards();
 		
 		//Gets player list so we can do tests with their cards
 		ArrayList<Player> playerList = board.getPlayerList();

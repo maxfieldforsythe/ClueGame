@@ -22,6 +22,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.lang.reflect.Field;
 
 import clueGame.BoardCell;
@@ -47,11 +51,20 @@ public class Board extends JPanel {
 	private Set<Card> cardDeck;
 	private Solution solution = new Solution();
 	private int roll = 0;
+	Rectangle r = null;
+	Set<Rectangle> targetRect = new HashSet<>();
+	Player tempPlayer = new HumanPlayer();
+	public boolean ready = true;
+	public String suggestName = "";
+	public String suggestWeapon = "";
+	public String suggestRoom = "";
+	public String disprove = "";
+	public boolean wasGuessed = false;
 	
 	
 	
 	public Board() {
-		
+		addMouseListener(new ClickListen());
 	}
 	
 	public static Board getInstance() {
@@ -90,6 +103,8 @@ public class Board extends JPanel {
 		visited = new HashSet<BoardCell>();
 		this.makeSolution();
 		this.shuffleAndDealCards();
+		
+		
 	}
 	
 
@@ -414,8 +429,13 @@ public class Board extends JPanel {
 		Card card2 = null;
 		Card card3 = null;
 		
+		ArrayList<Card> cardList = new ArrayList<>();
+		for (Card c: cardDeck) {
+			cardList.add(c);
+		}
+		Collections.shuffle(cardList);
 		
-		for (Card card: cardDeck) {
+		for (Card card: cardList) {
 			if (card.getType() == CardType.PERSON ) {
 				if (getSolution().person == null) {
 					getSolution().person = card.getName();
@@ -450,34 +470,20 @@ public class Board extends JPanel {
 	}
 	
 	public Card querySuggestions(ArrayList<Player> players, Solution suggestion) {
-		int size = players.size();
-		int index = 0;
+		Card disproved = new Card();
+
 		
-		for (Player player: players) {
-			if (player.getSuggestion() == suggestion) {
-				break;
-			}
-			index++;
-		}
+		for (Player p: getPlayerList()) {
 		
-		for (int i = index+1; i < size; i++) {
-			
-			
-			Card disproved = players.get(i).disproveSuggestion(suggestion);
+			disproved = p.disproveSuggestion(suggestion);
 			if (disproved != null) {
 				return disproved;
-			}
-			if (i == size -1) {
-				i = -1;
-			}
-			if (i == index-1) {
-				return null;
-			}
+			} 
 			
 		}
 		return null;
-		
 	}
+	
 
 	//Gets target set
 	public static Set<BoardCell> getTargets() {
@@ -543,6 +549,52 @@ public class Board extends JPanel {
 		 
 	}
 	
+	public class ClickListen implements MouseListener{
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			
+			Point tempPoint = new Point();
+			
+			tempPoint = e.getPoint();
+			
+			for (Rectangle rec: targetRect) {
+				if (rec.contains(tempPoint)) {
+					r = rec;
+					tempPlayer.makeMove(ClueGame.board1);
+					ClueGame.canAccuse = false;
+					targetRect = new HashSet<Rectangle>();
+					
+				}
+			}
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+	}
+	
 
 
 	//*****THIS SECTION HAS FUNCTIONS THAT ARE FOR TESTING PURPOSES ONLY*****
@@ -601,6 +653,9 @@ public class Board extends JPanel {
 	public void setRoll(int roll) {
 		this.roll = roll;
 	}
-	
+	public void setPlayers(ArrayList<Player> p) {
+		this.playerList = new ArrayList<Player>();
+		this.playerList = p;
+	}
 
 }

@@ -105,7 +105,7 @@ public class OurTests {
 		assertTrue(room.getInitial() == 'B');
 		// test the studio
 		room = board.getCellAt(19, 14);
-		assertTrue(room.getInitial() == 'S');
+		assertTrue(room.getInitial() == 'U');
 	}
 
 }

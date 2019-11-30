@@ -1,6 +1,0 @@
-The President, blue, 15, 21, H
-Magic Mouse, white, 20, 6
-Sgt Pepper, black, 20, 11
-Carol, green, 0, 16
-Small Child, pink, 9, 6
-Rabid Dog, orange, 6, 12

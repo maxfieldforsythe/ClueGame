@@ -1,11 +1,19 @@
 package clueGame;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 public class ComputerPlayer extends Player{
+	
+	private Set<BoardCell> seen = new HashSet<>();
+	
 	private Set<Card> seenCards = new HashSet<>();
 	public ComputerPlayer(){
 		super();
@@ -30,7 +38,9 @@ public class ComputerPlayer extends Player{
 		} else {
 			for (BoardCell bc: Board.getTargets()) {
 				if (bc.isDoorway()) {
+					if (!seen.contains(bc)) {
 					return bc;
+					}
 				}
 			}
 			
@@ -48,13 +58,24 @@ public class ComputerPlayer extends Player{
 		
 		
 	}
-	public void makeAccusation() {
+	public void makeAccusation(String person, String room, String weapon, Board b) {
+		
+		if (person.contentEquals(b.getSolution().person) && room.contentEquals(b.getSolution().room) &&  weapon.contentEquals(b.getSolution().weapon )) {
+			JOptionPane.showMessageDialog(new JFrame(), (this.getName() + " has correctly guessed the crook! \n" + person + " in the " + room + " with the " + weapon), "Winner",
+			        JOptionPane.ERROR_MESSAGE);
+			System.exit(0);
+		
+		} else {
+			JOptionPane.showMessageDialog(new JFrame(), this.getName() +"'s accusation is incorrect \n" + person + " in the " + room + " with the " + weapon, "Incorrect",
+			        JOptionPane.ERROR_MESSAGE);
+
+		}
 		
 	}
 	public void addSeenCard(Card card) {
 		seenCards.add(card);
 	}
-	public Solution makeSuggestion (Set<Card> cardDeck) {
+	public Solution makeSuggestion (Set<Card> cardDeck, Board b) {
 		
 		Solution suggestion = new Solution();
 		Set<Card> peopleCards = new HashSet<>();
@@ -95,7 +116,25 @@ public class ComputerPlayer extends Player{
 		
 		}
 		
-		for (Card card : cardDeck) {
+		Set<Card> tempDeck = cardDeck;
+		Card tempPersonCard = new Card();
+		Card tempWeaponCard = new Card();
+		Card tempRoomCard = new Card();
+		tempPersonCard.setCardName(b.getSolution().person);
+		tempPersonCard.setCardType(CardType.PERSON);
+		tempDeck.add(tempPersonCard);
+		tempWeaponCard.setCardName(b.getSolution().weapon);
+		tempWeaponCard.setCardType(CardType.WEAPON);
+		tempDeck.add(tempWeaponCard);
+		tempRoomCard.setCardName(b.getSolution().room);
+		tempRoomCard.setCardType(CardType.ROOM);
+		tempDeck.add(tempRoomCard);
+		
+		for (Card c: getMyCards()) {
+			seenCards.add(c);
+		}
+		
+		for (Card card : tempDeck) {
 			if (!seenCards.contains(card)) {
 				
 				
@@ -133,18 +172,43 @@ public class ComputerPlayer extends Player{
 		}
 		
 		 
-				
+		this.setSuggestion(suggestion);
+		Card disproven = b.querySuggestions(b.getPlayerList(), suggestion);
+		
+		if (disproven == null) {
+			b.disprove = "No new clue";
+		} else {
+			if (disproven.getCardType() == CardType.ROOM) {
+				seen.add(b.getCellAt(this.getRow(), this.getColumn()));
+			}
+		b.disprove = disproven.getCardName();
+		b.wasGuessed = false;
+		}
+		
+		seenCards.add(disproven);
 		return suggestion;
 	}
+	
+
+	
 	@Override
 	public void makeMove(Board b) {
 		
+		
+		if (b.disprove.contentEquals("No new clue")) {
+			makeAccusation(b.suggestName, b.suggestRoom, b.suggestWeapon, b);
+			b.wasGuessed = true;
+		}
+		
+		
+		Solution solution = new Solution();
+		solution = null;
 		
 		BoardCell bc = new BoardCell();
 		
 		b.clearTargets();
 
-		b.calcTargets(this.getRow(), this.getColumn(), b.getRoll() + 1);
+		b.calcTargets(this.getRow(), this.getColumn(), b.getRoll() );
 		
 		bc = this.pickLocation(b.getTargets());
 		
@@ -152,7 +216,21 @@ public class ComputerPlayer extends Player{
 		
 		this.setColumn(bc.getColumn());
 
+		
+		b.ready = true;
+		
 		b.repaint();
+		
+		if(bc.isDoorway()) {
+		solution = makeSuggestion(b.getDeckOfCards(), b);
+		b.suggestName = solution.person;
+		b.suggestRoom = solution.room;
+		b.suggestWeapon = solution.weapon;
+		}
+		
+		
+		
+		
 	}
 	
 
