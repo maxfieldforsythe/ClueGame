@@ -1,6 +1,0 @@
-Magic Mouse, Y, 20, 6
-Sgt Pepper, Bk, 20, 11
-The President, Bl, 15, 21
-Carol, G, 0, 16
-Small Child, P, 9, 6
-Rabid Dog, Br, 6, 12

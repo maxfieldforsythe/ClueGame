@@ -7,25 +7,38 @@ package clueGame;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridLayout;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.lang.reflect.Field;
 
 import clueGame.BoardCell;
 
-public class Board {
+public class Board extends JPanel {
 	
 	public static final int MAX_BOARD_SIZE = 50;
 	private int numRows;
 	private int numColumns;
-	private BoardCell [][] board;
+	private static BoardCell [][] board;
 	private Map<Character, String> legend;
 	private Map<BoardCell, Set<BoardCell>> adjMatrix;
-	private Set<BoardCell> targets;
+	private static Set<BoardCell> targets;
 	private Set<BoardCell> visited;
 	private String boardConfigFile;
 	private String roomConfigFile;
@@ -33,15 +46,45 @@ public class Board {
 	private String weaponConfigFile;
 	private static Board theInstance = new Board();
 	private ArrayList<Player> playerList;
+	private ArrayList<String> weaponList;
+	private ArrayList<Character> legendKeys;
 	private Set<Card> cardDeck;
+	private Solution solution = new Solution();
+	private int roll = 0;
+	Rectangle r = null;
+	Set<Rectangle> targetRect = new HashSet<>();
+	Player tempPlayer = new HumanPlayer();
+	public boolean ready = true;
+	public String suggestName = "";
+	public String suggestWeapon = "";
+	public String suggestRoom = "";
+	public String disprove = "";
+	public boolean wasGuessed = false;
+	
+	
 	
 	public Board() {
-		
+		addMouseListener(new ClickListen());
 	}
 	
 	public static Board getInstance() {
 		return theInstance;
 	}
+	
+	 public void paintComponent(Graphics g) {
+		 super.paintComponent(g);
+		 for (int i = 0; i < board.length; i++) {
+			 for (int j = 0; j < board[i].length; j++) {
+				 board[i][j].drawBox(g);
+			 }
+		 }
+		 
+		 for (Player p: playerList) {
+			 p.drawPlayer(g);
+		 }
+		 this.drawRoomName(g);
+	 }
+	 
 	
 	public void initialize() {
 		//Initialize legend as hash map and load csv and legend files
@@ -49,6 +92,8 @@ public class Board {
 		playerList = new ArrayList<Player>();
 		try{this.loadBoardConfig();
 			this.loadRoomConfig();
+			this.loadPlayers();
+			this.loadCards();
 		}catch(BadConfigFormatException e){
 			System.out.println(e.getMessage());
 		}
@@ -56,12 +101,17 @@ public class Board {
 		this.calcAdjacencies();
 		targets = new HashSet<BoardCell>();
 		visited = new HashSet<BoardCell>();
-		this.loadPlayers();
-		this.loadCards();
+		this.makeSolution();
+		this.shuffleAndDealCards();
+		
+		
 	}
 	
+
+
 	public void loadRoomConfig() throws BadConfigFormatException{
 		//File reader to read layout csv
+		legendKeys = new ArrayList<>();
 		FileReader reader = null;
 		try {
 			reader = new FileReader(roomConfigFile);
@@ -74,6 +124,8 @@ public class Board {
 		    String line = scanner.nextLine();
 		    String[] roomConfigArray = line.split(", ", -2);
 		    Character initialOfRoom = roomConfigArray[0].charAt(0);
+		    String roomName = roomConfigArray[0];
+		    legendKeys.add(initialOfRoom);
 		    
 		    //throws exception if it is the wrong type
 		    if (!roomConfigArray[2].contentEquals("Card") && !roomConfigArray[2].contentEquals("Other") )
@@ -149,12 +201,103 @@ public class Board {
 		
 	}
 	//Function to load in data from player config file
-	public void loadPlayers() {
-
+	public void loadPlayers() throws BadConfigFormatException {
+		//Creates arrayList of arrays to store the string split arrays when reading in lines from csv
+		ArrayList<String[]> arrays = new ArrayList<String[]>();
+		FileReader reader = null;
+		try {
+			reader = new FileReader(playerConfigFile);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} 
+		//splits by , and then stores the resulting array in an array list
+		Scanner scanner = new Scanner(reader);
+		while(scanner.hasNextLine()){
+		    String line = scanner.nextLine();
+		    String[] strArr = line.split(", ", -2);
+		    arrays.add(strArr);
+		    		}
+		
+		Player tempPlayer;
+		for (String[] str: arrays) {
+			
+			if  (str.length == 5) {
+			tempPlayer = new HumanPlayer();
+			} else {
+				tempPlayer = new ComputerPlayer();
+			}
+			
+			tempPlayer.setName(str[0]);
+			tempPlayer.setColor(convertColor(str[1]));
+			tempPlayer.setRow(Integer.parseInt(str[2]));			
+			tempPlayer.setColumn(Integer.parseInt(str[3]));
+			this.playerList.add(tempPlayer);
+		}
+	}
+	
+	public void loadWeapons() {
+		FileReader reader = null;
+		weaponList = new ArrayList<>();
+		try {
+			reader = new FileReader(weaponConfigFile);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} 
+		//splits by , and then stores the resulting array in an array list
+		Scanner scanner = new Scanner(reader);
+		while(scanner.hasNextLine()){
+		    String weapon = scanner.nextLine();
+		    weaponList.add(weapon);
+		    }
 	}
 	
 	public void loadCards() {
+		cardDeck = new HashSet<>();
+		loadWeapons();
+		//add weapons
+		for(String weapon : weaponList) {
+			Card currentCard = new Card(weapon,CardType.WEAPON);
+			cardDeck.add(currentCard);
+		}
+		//add people
+		for (Player person: playerList) {
+			Card currentCard = new Card(person.getName(),CardType.PERSON);
+			cardDeck.add(currentCard);
+		}
+		//add rooms
+		for (Character initial: legendKeys) {
+			if (initial != 'X' && initial != 'W') {
+			Card currentCard = new Card(legend.get(initial),CardType.ROOM);
+			cardDeck.add(currentCard);
+			}
+		}
+	}
+	
+	public void shuffleAndDealCards() {
+		int playerIterator = 0;
+		int numPlayers = playerList.size();
+		ArrayList<Card> cardList = new ArrayList<>();
 		
+		for (Card card: cardDeck) {
+			cardList.add(card);
+		}
+		Collections.shuffle(cardList);
+		
+		for (Card card: cardList) {
+			playerList.get(playerIterator % numPlayers).addCard(card);
+			playerIterator++;
+		}
+	}
+	
+	public Card getCard(String name, CardType type) {
+		
+		for (Card card : cardDeck) {
+			if (card.getName().contentEquals(name) && card.getType().equals(type)) {
+					return card;
+					}
+			
+		}
+		return null;
 	}
 	
 	public void calcAdjacencies() {
@@ -258,6 +401,7 @@ public class Board {
 	//Recursive function to calculate the targets at a given path length
 	public void calcTargets(int row, int column, int pathLength) {
 	
+		
 		for (BoardCell cell : adjMatrix.get(this.getCellAt(row, column))) {
 			if (visited.contains(cell)) {
 				continue;
@@ -275,15 +419,77 @@ public class Board {
 			}
 			visited.remove(cell);
 		}	
+		
+		
 	}
+	
+	public void makeSolution() {
+		
+		Card card1 = null;
+		Card card2 = null;
+		Card card3 = null;
+		
+		ArrayList<Card> cardList = new ArrayList<>();
+		for (Card c: cardDeck) {
+			cardList.add(c);
+		}
+		Collections.shuffle(cardList);
+		
+		for (Card card: cardList) {
+			if (card.getType() == CardType.PERSON ) {
+				if (getSolution().person == null) {
+					getSolution().person = card.getName();
+					card1 = card;
+				}
+			} else if (card.getType() == CardType.ROOM) {
+				if (getSolution().room == null) {
+					getSolution().room = card.getName();
+					card2 = card;
+				}
+			} else if (card.getType() == CardType.WEAPON) {
+				if (getSolution().weapon == null) {
+					getSolution().weapon = card.getName();
+					card3 = card;
+				}
+			}
+		}
+		cardDeck.remove(card1);
+		cardDeck.remove(card2);
+		cardDeck.remove(card3);
+		
+		
+	}
+	
+	public boolean accusationCompare(String name, String room, String weapon) {
+		if (name == this.solution.person && room == this.solution.room && weapon == this.solution.weapon) {
+			return true;
+			
+		} else {
+			return false;
+		}
+	}
+	
+	public Card querySuggestions(ArrayList<Player> players, Solution suggestion) {
+		Card disproved = new Card();
+
+		
+		for (Player p: getPlayerList()) {
+		
+			disproved = p.disproveSuggestion(suggestion);
+			if (disproved != null) {
+				return disproved;
+			} 
+			
+		}
+		return null;
+	}
+	
 
 	//Gets target set
-	public Set<BoardCell> getTargets() {
+	public static Set<BoardCell> getTargets() {
 		Set<BoardCell> temp = new HashSet<>();
 		temp = targets;
-		//TODO: This needs to be fixed somewhere else 
-		targets = new HashSet<BoardCell>();
-		visited = new HashSet<BoardCell>();
+		
 		return temp;
 	}
 
@@ -299,7 +505,7 @@ public class Board {
 		return this.numColumns;
 	}
 
-	public BoardCell getCellAt(int i, int j) {
+	public static BoardCell getCellAt(int i, int j) {
 		return board[i][j];
 	}
 
@@ -328,22 +534,128 @@ public class Board {
 		return color;
 				}
 	
+	public void drawRoomName(Graphics g) {
+		 
+		 
+		 g.drawString("Kitchen",70 ,280);
+		 g.drawString("Dining Room", 18*28, 18*28);
+		 g.drawString("TV Room", 11*28, 3*28);
+		 g.drawString("Studio", 13*28 + 10, 16*28);
+		 g.drawString("Bar", 19*28, 280);
+		 g.drawString("Hall", 20*28 - 10, 2*28);
+		 g.drawString("Gym", 8*28+15,18*28 );
+		 g.drawString("Common Room", 2*28,2*28);
+		 g.drawString("Reading Room", 28, 18*28);
+		 
+	}
+	
+	public class ClickListen implements MouseListener{
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			
+			Point tempPoint = new Point();
+			
+			tempPoint = e.getPoint();
+			
+			for (Rectangle rec: targetRect) {
+				if (rec.contains(tempPoint)) {
+					r = rec;
+					tempPlayer.makeMove(ClueGame.board1);
+					ClueGame.canAccuse = false;
+					targetRect = new HashSet<Rectangle>();
+					
+				}
+			}
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+	}
+	
 
 
 	//*****THIS SECTION HAS FUNCTIONS THAT ARE FOR TESTING PURPOSES ONLY*****
 	
 	//returns num of human players in set
 	public int numHuman() {
-		return 0;
+		int i = 0;
+		for (Player pl: playerList) {
+			if (pl instanceof HumanPlayer) {
+				i++;
+				}
+		}
+		return i;
 	}
 	
 	//returns num of computer players in set
 	public int numComp() {
-		return 0;
+		int i = 0;
+		for (Player pl: playerList) {
+			if (pl instanceof ComputerPlayer) {
+				i++;
+				}
+		}
+		return i;
 	}
 	
 	public Player getPlayer(int i) {
-		return null;
+		return playerList.get(i);
+	}
+	public ArrayList<Player> getPlayerList(){
+		return playerList;
+	}
+	
+	public Set<Card> getDeckOfCards(){
+		return cardDeck;
+	}
+
+
+	public void clearTargets() {
+		targets = new HashSet<BoardCell>();
+		visited = new HashSet<BoardCell>();
+	}
+
+	public Solution getSolution() {
+		return solution;
+	}
+
+	public void setSolution(Solution solution) {
+		this.solution = solution;
+	}
+
+	public int getRoll() {
+		return roll;
+	}
+
+	public void setRoll(int roll) {
+		this.roll = roll;
+	}
+	public void setPlayers(ArrayList<Player> p) {
+		this.playerList = new ArrayList<Player>();
+		this.playerList = p;
 	}
 
 }

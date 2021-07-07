@@ -1,0 +1,105 @@
+* 66746d0 : Added the cards panel with current human player cards as well as added the splash scren
+* 07fe299 : Got the choices to save inthe notes menu
+* cfeb017 : Added the menu for notes with all attributes. Cannot figure out how to make the selected data save
+* 02610ea : Added some comments
+* f5b3eda : Added a File menu with exit button. Still need to add dialogue box for detective notes
+* aa0a0ab : Finished drawing the board with room names and players
+* ad27dfd : cleaned up file system, passing tests still
+* ec59c17 : added paintComponent to board
+* 9704b5b : added basic turn GUI to experiments package
+* c8476fc : Fixed error in old tests
+* b85a95e : Passing handle suggestion test
+* 6186cba : added failing tests for handle suggestion
+*   931266f : Merge with tests and functions for disprove suggestion
+|\  
+| * 40e9549 : passing tests for disproveSuggestion()
+| * cc92f94 : finished failing tests
+| * 886629f : started disprove suggestion failing test
+* | 6291178 : Added first handle suggestion test
+|/  
+* 8bcb1bc : passing create suggestion tests
+* b599f5f : added failing tests
+* 9afffe4 : added tests for create suggestion for computer player
+* 91d04a9 : Added function to compare accusation and solution, tests now pass
+* ae1c84f : Added tests to check if accusation matches the solution
+* cd7050b : Working computer target selection tests
+* fb6b037 : Added tests for room selection depending on if last visited was a door
+* 21fe901 : Updated function pickLocation for computer player so that the first of three selection tests has passed
+* cd40caf : Added test for randomly selecting rooms as the computer player. Also added in function stubs
+* 2bd0b04 : finished dealt tests and comments
+* d4879c6 : forgot to save oops
+* f4be2c8 : added shuffle and deal cards function
+* 8b80ec8 : completed passing deckofcards tests
+* c3abde2 : fixed loadDeck to have correct num cards
+* f2cc794 : created new instances to fix error
+* 2afb6b4 : added load cards
+* cecb5e0 : Finished function to load players into the player arraylist and tests are now passing
+* e4d8295 : fixed an error in the @before class, new branch for testing gameSetup
+* 90be1d0 : Removed gameSetupTest package and created a single java class in the original tests folder
+*   65f58b3 : Merge pull request #5 from maxfieldforsythe/carly
+|\  
+| * 69fe648 : Added test for loading the people as well as some function stubs and getters for testing purposes
+* |   96d1c2a : Merge pull request #4 from maxfieldforsythe/carly
+|\ \  
+| |/  
+| * 9bbd69f : Added weapon and person config files
+|/  
+*   cd3dcf4 : Merge pull request #3 from maxfieldforsythe/carly
+|\  
+| * 74fd89d : added player test files
+| * 2fb3396 : preparing for players
+* |   968b01d : Merge pull request #2 from maxfieldforsythe/develop
+|\ \  
+| * \   4bba8b6 : Merge pull request #1 from maxfieldforsythe/refactor-carly
+| |\ \  
+| | |/  
+| | * a6bad82 : fixed gameboard
+| | * 98a0a2c : spacing
+| | * 5978d02 : renamed adjcell
+| | * 209a9a6 : one more change
+| | * 8075f86 : cleaned up more adj stuff
+| | * 4750872 : fixed spacing
+| | * 556de3a : fixed scanner issue
+| | * 48e94fa : fixed set declaration
+| | * 60db1b6 : took out instance declare
+| | * 4452cd9 : refactored board cell and adj func
+| | * 07bb216 : some minor refactoring
+| |/  
+| * 3c2eb8f : full custom tests
+| * e72ac22 : Started on our own tests
+| * e443870 : added comments
+| * d5e84d8 : Passes all tests for adj and target, still need to create our own tests
+| * 61f301f : PAssed adjenceiesinsideroom test
+| * 091e827 : Ok, now it actually doesnt have the error
+| * b2953d8 : Function calcAdjacenceis no longer has null pointer
+| * eafaff3 : Added in adj and target calculator functions, but calcadjacencies does not yet work
+| * a20af42 : added exceptions cases
+| * 40db1ee : finished tests
+| *   754568b : Merge branc" 'develop' of https://github.com/maxfieldforsythe/ClueGame into develop
+| |\  
+| | * 8a6730c : took out dimensions on our csv
+| * | 482aa07 : Added comments imported exception tests
+| |/  
+| *   92474c3 : idk
+| |\  
+| | * 5d63147 : added our gameboard csv
+| * | 8c57aaf : moved test files back
+| * | 939ad03 : functions now pass tests
+| |/  
+| * 67bcfd4 : added more skeleton files
+| * 86b8e6d : added CTestFiles
+|/  
+* 0053c54 : Corrected the targtets function
+* 2597982 : Fixed more tests
+* a59f55f : Added first iteration of adjacent function
+*   b416269 : Merge branch 'master' of https://github.com/maxfieldforsythe/ClueGame
+|\  
+| * e167056 : Added rooms.txt
+* | d7c709c : Finished tests for target
+|/  
+* 3b2642f : Actually updated the adjecency tests
+* 845f1c4 : Added complete adjacency tests
+* ceb093d : Delete .project
+* 06a61f0 : Delete .classpath
+* 16b86cc : added tests
+* e630507 : first commit

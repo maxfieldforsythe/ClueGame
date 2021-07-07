@@ -1,10 +1,10 @@
 K, Kitchen, Card
-R, Reading room, Card
+R, Reading Room, Card
 T, TV Room, Card
 G, Gym, Card
 U, Studio, Card
 B, Bar, Card
-D, Dining room, Card
+D, Dining Room, Card
 H, Hall, Card
 C, Common Room, Card
 X, Closet, Other
